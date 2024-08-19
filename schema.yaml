@@ -1,10 +1,241 @@
 openapi: 3.0.3
 info:
-  title: OpenAPI schema for template walrus-template-template
+  title: OpenAPI schema for template walrus-tofu-deploy-source-code
 components:
   schemas:
     variables:
       type: object
+      required:
+      - git_url
+      - image
+      properties:
+        git_url:
+          title: Git Url
+          type: string
+          description: URL to the source code repository.
+          x-walrus-ui:
+            group: Basic
+            order: 1
+        git_branch:
+          title: Git Branch
+          type: string
+          description: Branch of the repository to clone.
+          default: main
+          x-walrus-ui:
+            group: Basic
+            order: 2
+        git_auth:
+          title: Git Auth
+          type: boolean
+          description: Git authentication enabled.
+          default: false
+          x-walrus-ui:
+            group: Basic
+            order: 3
+        git_username:
+          title: Git Username
+          type: string
+          description: Username for cloning the git repository.
+          format: password
+          writeOnly: true
+          x-walrus-ui:
+            group: Basic
+            order: 4
+        git_password:
+          title: Git Password
+          type: string
+          description: Password for cloning the git repository.
+          format: password
+          writeOnly: true
+          x-walrus-ui:
+            group: Basic
+            order: 5
+        dockerfile:
+          title: Dockerfile
+          type: string
+          description: Path to the Dockerfile.
+          default: Dockerfile
+          x-walrus-ui:
+            group: Basic
+            order: 7
+        registry_auth:
+          title: Registry Auth
+          type: boolean
+          description: Registry authentication enabled.
+          default: false
+          x-walrus-ui:
+            group: Basic
+            order: 8
+        registry_username:
+          title: Registry Username
+          type: string
+          description: Username for the image registry.
+          format: password
+          writeOnly: true
+          x-walrus-ui:
+            group: Basic
+            order: 9
+        registry_password:
+          title: Registry Password
+          type: string
+          description: Password for the image registry.
+          format: password
+          writeOnly: true
+          x-walrus-ui:
+            group: Basic
+            order: 10
+        image:
+          title: Image
+          type: string
+          description: Name of the image to be built and deployed.
+          x-walrus-ui:
+            group: Basic
+            order: 11
+        replicas:
+          title: Replicas
+          type: number
+          description: Count of pods
+          default: 1
+          x-walrus-ui:
+            group: Basic
+            order: 12
+        ports:
+          title: Ports
+          type: array
+          description: Service ports to expose
+          default:
+          - 80
+          items:
+            type: number
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 13
+        env:
+          title: Env
+          type: object
+          description: Name and value pairs to set as the environment variables
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 14
+        request_cpu:
+          title: Request Cpu
+          type: string
+          description: CPU request. e.g. 0.5, 1, 2
+          default: "0.1"
+          x-walrus-ui:
+            group: Basic
+            order: 15
+        request_memory:
+          title: Request Memory
+          type: string
+          description: Memory request. e.g. 128Mi, 512Mi, 1Gi, 2Gi, 4Gi
+          default: 128Mi
+          x-walrus-ui:
+            group: Basic
+            order: 16
+        limit_cpu:
+          title: Limit Cpu
+          type: string
+          description: CPU limit. e.g. 0.5, 1, 2
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 17
+        limit_memory:
+          title: Limit Memory
+          type: string
+          description: Memory limit. e.g. 128Mi, 512Mi, 1Gi, 2Gi, 4Gi
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 18
+        namespace:
+          title: Namespace
+          type: string
+          description: Namespace to deploy. Auto-generated if empty.
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 19
+        name:
+          title: Name
+          type: string
+          description: Name of the deployment resource. Auto-generated if empty.
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 20
+        ingress_enabled:
+          title: Ingress Enabled
+          type: boolean
+          description: (Optional) Enabled exposing via ingress.
+          default: false
+          x-walrus-ui:
+            group: Basic
+            order: 21
+        ingress_tls_enabled:
+          title: Ingress Tls Enabled
+          type: boolean
+          description: (Optional) Enabled TLS.
+          default: false
+          x-walrus-ui:
+            group: Basic
+            order: 22
+        ingress_host:
+          title: Ingress Host
+          type: string
+          description: (Optional) Add ingress host.
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 23
+        ingress_annotations:
+          title: Ingress Annotations
+          type: object
+          description: (Optional) Add annotations
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 24
+        ingress_class_name:
+          title: Ingress Class Name
+          type: string
+          description: (Optional) Add an ingress class name.
+          default: nginx
+          x-walrus-ui:
+            group: Basic
+            order: 25
+        walrus_metadata_service_name:
+          title: Walrus Metadata Service Name
+          type: string
+          description: Walrus metadata service name.
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 26
+        walrus_metadata_namespace_name:
+          title: Walrus Metadata Namespace Name
+          type: string
+          description: Walrus metadata namespace name.
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 27
+        git_path:
+          title: Git Path
+          type: string
+          description: Path to the source code.
+          x-walrus-ui:
+            group: Basic
+            order: 6
       x-walrus-ui:
         groupOrder:
         - Basic

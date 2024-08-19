@@ -32,11 +32,26 @@ output "walrus_resource_id" {
   description = "The id of resource where deployed in Walrus."
 }
 
-#
-# Submodule output
-#
-
-output "submodule" {
-  value       = module.submodule.message
-  description = "The message from submodule."
+output "walrus_endpoints" {
+  value = {
+    external_url     = data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].hostname
+    load_balancer_ip = data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip
+  }
+  description = "URL of the service"
 }
+
+output "service_ip" {
+  description = "Service IP"
+  value       = data.kubernetes_service.service.spec[0].cluster_ip
+}
+
+output "ports" {
+  description = "Service Ports"
+  value       = var.ports
+}
+
+output "image" {
+  description = "Built docker image name"
+  value       = var.image
+}
+

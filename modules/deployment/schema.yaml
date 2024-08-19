@@ -1,0 +1,1085 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI schema for template deployment
+components:
+  schemas:
+    variables:
+      type: object
+      required:
+      - image
+      - name
+      properties:
+        name:
+          title: Name
+          type: string
+          description: (Required) Name of the deployment
+          x-walrus-ui:
+            group: Basic
+            order: 1
+        namespace:
+          title: Namespace
+          type: string
+          description: (Optional) Namespace in which to create the deployment
+          default: default
+          x-walrus-ui:
+            group: Basic
+            order: 2
+        deployment_annotations:
+          title: Deployment Annotations
+          type: object
+          description: Annotations for deployment
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 3
+        template_annotations:
+          title: Template Annotations
+          type: object
+          description: Annotations for pod (template)
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 4
+        image:
+          title: Image
+          type: string
+          description: (Required) Docker image name
+          x-walrus-ui:
+            group: Basic
+            order: 5
+        image_pull_policy:
+          title: Image Pull Policy
+          type: string
+          description: One of Always, Never, IfNotPresent
+          default: IfNotPresent
+          x-walrus-ui:
+            group: Basic
+            order: 6
+        args:
+          title: Args
+          type: array
+          description: (Optional) Arguments to the entrypoint
+          default: []
+          items:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 7
+        command:
+          title: Command
+          type: array
+          description: ' (Optional) Entrypoint array. Not executed within a shell'
+          default: []
+          items:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 8
+        env:
+          title: Env
+          type: object
+          description: (Optional) Name and value pairs to set in the container's environment
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 9
+        env_field:
+          title: Env Field
+          type: object
+          description: (Optional) Get field from k8s and add as environment variables
+            to pods
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 10
+        env_secret:
+          title: Env Secret
+          type: object
+          description: (Optional) Get secret keys from k8s and add as environment
+            variables to pods
+          default: {}
+          additionalProperties:
+            properties:
+              key:
+                title: Key
+                type: string
+                x-walrus-ui:
+                  order: 1
+              name:
+                title: Name
+                type: string
+                x-walrus-ui:
+                  order: 2
+            required:
+            - key
+            - name
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 11
+        resources:
+          title: Resources
+          type: object
+          description: (Optional) Compute Resources required by this container. CPU/RAM
+            requests/limits
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 12
+        internal_port:
+          title: Internal Port
+          type: array
+          description: (Optional) List of ports to expose from the container
+          default: []
+          items:
+            properties:
+              host_port:
+                title: Host Port
+                type: number
+                x-walrus-ui:
+                  order: 3
+              internal_port:
+                title: Internal Port
+                type: number
+                x-walrus-ui:
+                  order: 2
+              name:
+                title: Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+            required:
+            - internal_port
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 13
+        volume_mount:
+          title: Volume Mount
+          type: array
+          description: (Optional) Mount path from pods to volume
+          default: []
+          items:
+            properties:
+              mount_path:
+                title: Mount Path
+                type: string
+                x-walrus-ui:
+                  order: 1
+              read_only:
+                title: Read Only
+                type: boolean
+                x-walrus-ui:
+                  order: 4
+              sub_path:
+                title: Sub Path
+                type: string
+                x-walrus-ui:
+                  order: 2
+              volume_name:
+                title: Volume Name
+                type: string
+                x-walrus-ui:
+                  order: 3
+            required:
+            - mount_path
+            - volume_name
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 14
+        volume_nfs:
+          title: Volume Nfs
+          type: array
+          description: (Optional) Represents an NFS mounts on the host
+          default: []
+          items:
+            properties:
+              nfs_endpoint:
+                title: Nfs Endpoint
+                type: string
+                x-walrus-ui:
+                  order: 2
+              path_on_nfs:
+                title: Path On Nfs
+                type: string
+                x-walrus-ui:
+                  order: 1
+              volume_name:
+                title: Volume Name
+                type: string
+                x-walrus-ui:
+                  order: 3
+            required:
+            - nfs_endpoint
+            - path_on_nfs
+            - volume_name
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 15
+        volume_host_path:
+          title: Volume Host Path
+          type: array
+          description: (Optional) Represents a directory from node on the host
+          default: []
+          items:
+            properties:
+              host_path:
+                properties:
+                  path_on_node:
+                    title: Path On Node
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                  type:
+                    title: Type
+                    type: string
+                    x-walrus-ui:
+                      order: 2
+                required:
+                - path_on_node
+                title: Host Path
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 2
+              volume_name:
+                title: Volume Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+            required:
+            - host_path
+            - volume_name
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 16
+        volume_config_map:
+          title: Volume Config Map
+          type: array
+          description: (Optional) The data stored in a ConfigMap object can be referenced
+            in a volume of type configMap and then consumed by containerized applications
+            running in a Pod
+          default: []
+          items:
+            properties:
+              mode:
+                title: Mode
+                type: string
+                x-walrus-ui:
+                  order: 1
+              name:
+                title: Name
+                type: string
+                x-walrus-ui:
+                  order: 2
+              volume_name:
+                title: Volume Name
+                type: string
+                x-walrus-ui:
+                  order: 3
+            required:
+            - mode
+            - name
+            - volume_name
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 17
+        volume_empty_dir:
+          title: Volume Empty Dir
+          type: array
+          default: []
+          items:
+            properties:
+              volume_name:
+                title: Volume Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+            required:
+            - volume_name
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 18
+        volume_gce_disk:
+          title: Volume Gce Disk
+          type: array
+          description: (Optional) Represents an GCE Disk resource that is attached
+            to a kubelet's host machine and then exposed to the pod
+          default: []
+          items:
+            properties:
+              gce_persistent_disk:
+                properties:
+                  fs_type:
+                    title: Fs Type
+                    type: string
+                    x-walrus-ui:
+                      order: 2
+                  gce_disk:
+                    title: Gce Disk
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                  partition:
+                    title: Partition
+                    type: number
+                    x-walrus-ui:
+                      order: 3
+                  read_only:
+                    title: Read Only
+                    type: boolean
+                    x-walrus-ui:
+                      order: 4
+                required:
+                - gce_disk
+                title: Gce Persistent Disk
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 2
+              name:
+                title: Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+            required:
+            - gce_persistent_disk
+            - name
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 19
+        volume_secret:
+          title: Volume Secret
+          type: array
+          description: (Optional) Create volume from secret
+          default: []
+          items:
+            properties:
+              items:
+                items:
+                  properties:
+                    key:
+                      title: Key
+                      type: string
+                      x-walrus-ui:
+                        order: 1
+                    mode:
+                      title: Mode
+                      type: string
+                      x-walrus-ui:
+                        order: 3
+                    path:
+                      title: Path
+                      type: string
+                      x-walrus-ui:
+                        order: 2
+                  required:
+                  - key
+                  - mode
+                  - path
+                  type: object
+                  x-walrus-ui:
+                    colSpan: 12
+                title: Items
+                type: array
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 3
+              name:
+                title: Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+              secret:
+                properties:
+                  default_mode:
+                    title: Default Mode
+                    type: string
+                    x-walrus-ui:
+                      order: 2
+                  optional:
+                    title: Optional
+                    type: boolean
+                    x-walrus-ui:
+                      order: 3
+                  secret_name:
+                    title: Secret Name
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                required:
+                - secret_name
+                title: Secret
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 2
+            required:
+            - items
+            - name
+            - secret
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 20
+        volume_aws_disk:
+          title: Volume Aws Disk
+          type: array
+          description: (Optional) Represents an AWS Disk resource that is attached
+            to a kubelet's host machine and then exposed to the pod
+          default: []
+          items:
+            properties:
+              aws_elastic_block_store:
+                properties:
+                  fs_type:
+                    title: Fs Type
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                  partition:
+                    title: Partition
+                    type: number
+                    x-walrus-ui:
+                      order: 2
+                  read_only:
+                    title: Read Only
+                    type: boolean
+                    x-walrus-ui:
+                      order: 3
+                  volume_id:
+                    title: Volume Id
+                    type: string
+                    x-walrus-ui:
+                      order: 4
+                required:
+                - volume_id
+                title: Aws Elastic Block Store
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 2
+              name:
+                title: Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+            required:
+            - aws_elastic_block_store
+            - name
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 21
+        volume_claim:
+          title: Volume Claim
+          type: array
+          description: (Optional) Represents an Persistent volume Claim resource that
+            is attached to a kubelet's host machine and then exposed to the pod
+          default: []
+          items:
+            properties:
+              name:
+                title: Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+              persistent_volume_claim:
+                properties:
+                  claim_name:
+                    title: Claim Name
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                  read_only:
+                    title: Read Only
+                    type: boolean
+                    x-walrus-ui:
+                      order: 2
+                title: Persistent Volume Claim
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 2
+            required:
+            - name
+            - persistent_volume_claim
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 22
+        toleration:
+          title: Toleration
+          type: array
+          description: (Optional) Pod node tolerations
+          default: []
+          items:
+            properties:
+              effect:
+                title: Effect
+                type: string
+                x-walrus-ui:
+                  order: 1
+              key:
+                title: Key
+                type: string
+                x-walrus-ui:
+                  order: 2
+              operator:
+                title: Operator
+                type: string
+                x-walrus-ui:
+                  order: 3
+              toleration_seconds:
+                title: Toleration Seconds
+                type: string
+                x-walrus-ui:
+                  order: 4
+              value:
+                title: Value
+                type: string
+                x-walrus-ui:
+                  order: 5
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 23
+        hosts:
+          title: Hosts
+          type: array
+          description: (Optional) Add /etc/hosts records to pods
+          default: []
+          items:
+            properties:
+              hostname:
+                items:
+                  type: string
+                title: Hostname
+                type: array
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 1
+              ip:
+                title: Ip
+                type: string
+                x-walrus-ui:
+                  order: 2
+            required:
+            - hostname
+            - ip
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 24
+        security_context:
+          title: Security Context
+          type: array
+          description: (Optional) SecurityContext holds pod-level security attributes
+            and common container settings
+          default: []
+          items:
+            properties:
+              fs_group:
+                title: Fs Group
+                type: string
+                x-walrus-ui:
+                  order: 1
+              run_as_group:
+                title: Run As Group
+                type: string
+                x-walrus-ui:
+                  order: 2
+              run_as_non_root:
+                title: Run As Non Root
+                type: boolean
+                x-walrus-ui:
+                  order: 4
+              run_as_user:
+                title: Run As User
+                type: string
+                x-walrus-ui:
+                  order: 3
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 25
+        security_context_capabilities:
+          title: Security Context Capabilities
+          type: array
+          description: (Optional) Security context in pod. Only capabilities.
+          default: []
+          items:
+            properties:
+              add:
+                items:
+                  type: string
+                title: Add
+                type: array
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 2
+              allow_privilege_escalation:
+                title: Allow Privilege Escalation
+                type: boolean
+                x-walrus-ui:
+                  order: 1
+              drop:
+                items:
+                  type: string
+                title: Drop
+                type: array
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 3
+            required:
+            - allow_privilege_escalation
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 26
+        security_context_container:
+          title: Security Context Container
+          type: array
+          description: (Optional) Security context in pod.
+          default: []
+          items:
+            properties:
+              allow_privilege_escalation:
+                title: Allow Privilege Escalation
+                type: boolean
+                x-walrus-ui:
+                  order: 1
+              privileged:
+                title: Privileged
+                type: boolean
+                x-walrus-ui:
+                  order: 2
+              read_only_root_filesystem:
+                title: Read Only Root Filesystem
+                type: boolean
+                x-walrus-ui:
+                  order: 3
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 27
+        custom_labels:
+          title: Custom Labels
+          type: object
+          description: (Optional) Add custom label to pods
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 28
+        tty:
+          title: Tty
+          type: boolean
+          description: Whether this container should allocate a TTY for itself
+          default: true
+          x-walrus-ui:
+            group: Basic
+            order: 29
+        termination_grace_period_seconds:
+          title: Termination Grace Period Seconds
+          type: number
+          description: Duration in seconds the pod needs to terminate gracefully
+          x-walrus-ui:
+            group: Basic
+            order: 30
+        service_account_token:
+          title: Service Account Token
+          type: boolean
+          description: Indicates whether a service account token should be automatically
+            mounted
+          x-walrus-ui:
+            group: Basic
+            order: 31
+        service_account_name:
+          title: Service Account Name
+          type: string
+          description: (Optional) Is the name of the ServiceAccount to use to run
+            this pod
+          x-walrus-ui:
+            group: Basic
+            order: 32
+        restart_policy:
+          title: Restart Policy
+          type: string
+          description: Restart policy for all containers within the pod. One of Always,
+            OnFailure, Never
+          default: Always
+          x-walrus-ui:
+            group: Basic
+            order: 33
+        replicas:
+          title: Replicas
+          type: number
+          description: (Optional) Count of pods
+          default: 1
+          x-walrus-ui:
+            group: Basic
+            order: 34
+        min_ready_seconds:
+          title: Min Ready Seconds
+          type: number
+          description: (Optional) Field that specifies the minimum number of seconds
+            for which a newly created Pod should be ready without any of its containers
+            crashing, for it to be considered available
+          x-walrus-ui:
+            group: Basic
+            order: 35
+        liveness_probe:
+          title: Liveness Probe
+          type: array
+          description: '(Optional) Periodic probe of container liveness. Container
+            will be restarted if the probe fails. Cannot be updated. '
+          default: []
+          items:
+            properties:
+              failure_threshold:
+                title: Failure Threshold
+                type: number
+                x-walrus-ui:
+                  order: 5
+              http_get:
+                properties:
+                  host:
+                    title: Host
+                    type: string
+                    x-walrus-ui:
+                      order: 4
+                  http_header:
+                    items:
+                      properties:
+                        name:
+                          title: Name
+                          type: string
+                          x-walrus-ui:
+                            order: 1
+                        value:
+                          title: Value
+                          type: string
+                          x-walrus-ui:
+                            order: 2
+                      type: object
+                      x-walrus-ui:
+                        colSpan: 12
+                    title: Http Header
+                    type: array
+                    x-walrus-ui:
+                      colSpan: 12
+                      order: 5
+                  path:
+                    title: Path
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                  port:
+                    title: Port
+                    type: string
+                    x-walrus-ui:
+                      order: 2
+                  scheme:
+                    title: Scheme
+                    type: string
+                    x-walrus-ui:
+                      order: 3
+                title: Http Get
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 6
+              initial_delay_seconds:
+                title: Initial Delay Seconds
+                type: number
+                x-walrus-ui:
+                  order: 1
+              period_seconds:
+                title: Period Seconds
+                type: number
+                x-walrus-ui:
+                  order: 2
+              success_threshold:
+                title: Success Threshold
+                type: number
+                x-walrus-ui:
+                  order: 4
+              timeout_seconds:
+                title: Timeout Seconds
+                type: number
+                x-walrus-ui:
+                  order: 3
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 36
+        readiness_probe:
+          title: Readiness Probe
+          type: array
+          description: '(Optional) Periodic probe of container service readiness.
+            Container will be removed from service endpoints if the probe fails. Cannot
+            be updated. '
+          default: []
+          items:
+            properties:
+              failure_threshold:
+                title: Failure Threshold
+                type: number
+                x-walrus-ui:
+                  order: 5
+              http_get:
+                properties:
+                  host:
+                    title: Host
+                    type: string
+                    x-walrus-ui:
+                      order: 4
+                  http_header:
+                    items:
+                      properties:
+                        name:
+                          title: Name
+                          type: string
+                          x-walrus-ui:
+                            order: 1
+                        value:
+                          title: Value
+                          type: string
+                          x-walrus-ui:
+                            order: 2
+                      type: object
+                      x-walrus-ui:
+                        colSpan: 12
+                    title: Http Header
+                    type: array
+                    x-walrus-ui:
+                      colSpan: 12
+                      order: 5
+                  path:
+                    title: Path
+                    type: string
+                    x-walrus-ui:
+                      order: 1
+                  port:
+                    title: Port
+                    type: string
+                    x-walrus-ui:
+                      order: 2
+                  scheme:
+                    title: Scheme
+                    type: string
+                    x-walrus-ui:
+                      order: 3
+                title: Http Get
+                type: object
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 6
+              initial_delay_seconds:
+                title: Initial Delay Seconds
+                type: number
+                x-walrus-ui:
+                  order: 1
+              period_seconds:
+                title: Period Seconds
+                type: number
+                x-walrus-ui:
+                  order: 2
+              success_threshold:
+                title: Success Threshold
+                type: number
+                x-walrus-ui:
+                  order: 4
+              timeout_seconds:
+                title: Timeout Seconds
+                type: number
+                x-walrus-ui:
+                  order: 3
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 37
+        lifecycle_events:
+          title: Lifecycle Events
+          type: array
+          description: (Optional) Actions that the management system should take in
+            response to container lifecycle events
+          default: []
+          items:
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 38
+            widget: YamlEditor
+        image_pull_secrets:
+          title: Image Pull Secrets
+          type: object
+          description: (Optional) Specify list of pull secrets
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 39
+        node_selector:
+          title: Node Selector
+          type: object
+          description: (Optional) Specify node selector for pod
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 40
+        strategy_update:
+          title: Strategy Update
+          type: string
+          description: (Optional) Type of deployment. Can be 'Recreate' or 'RollingUpdate'
+          default: RollingUpdate
+          x-walrus-ui:
+            group: Basic
+            order: 41
+        rolling_update:
+          title: Rolling Update
+          type: array
+          description: Rolling update config params. Present only if strategy_update
+            = RollingUpdate
+          default: []
+          items:
+            properties:
+              rolling_update:
+                items:
+                  properties:
+                    max_surge:
+                      title: Max Surge
+                      type: string
+                      x-walrus-ui:
+                        order: 1
+                    max_unavailable:
+                      title: Max Unavailable
+                      type: string
+                      x-walrus-ui:
+                        order: 2
+                  type: object
+                  x-walrus-ui:
+                    colSpan: 12
+                title: Rolling Update
+                type: array
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 2
+              strategy_update:
+                title: Strategy Update
+                type: string
+                x-walrus-ui:
+                  order: 1
+            required:
+            - rolling_update
+            - strategy_update
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 42
+        wait_for_rollout:
+          title: Wait For Rollout
+          type: boolean
+          default: true
+          x-walrus-ui:
+            group: Basic
+            order: 43
+        prevent_deploy_on_the_same_node:
+          title: Prevent Deploy On The Same Node
+          type: boolean
+          description: Pod pod_anti_affinity rule, which prevents deploy same pod
+            on one node.
+          default: false
+          x-walrus-ui:
+            group: Basic
+            order: 44
+      x-walrus-ui:
+        groupOrder:
+        - Basic

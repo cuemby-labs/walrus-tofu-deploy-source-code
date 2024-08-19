@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI schema for template service
+components:
+  schemas:
+    variables:
+      type: object
+      required:
+      - app_name
+      - app_namespace
+      - port_mapping
+      properties:
+        app_name:
+          title: App Name
+          type: string
+          description: (Required) Application name for attach to service
+          x-walrus-ui:
+            group: Basic
+            order: 1
+        app_namespace:
+          title: App Namespace
+          type: string
+          description: (Required) Namespace where located application
+          x-walrus-ui:
+            group: Basic
+            order: 2
+        port_mapping:
+          title: Port Mapping
+          type: array
+          description: (Required) Mapping ports from container to expose port
+          items:
+            properties:
+              name:
+                title: Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+              node_port:
+                title: Node Port
+                type: number
+                x-walrus-ui:
+                  order: 4
+              port:
+                title: Port
+                type: number
+                x-walrus-ui:
+                  order: 2
+              protocol:
+                title: Protocol
+                type: string
+                x-walrus-ui:
+                  order: 3
+              target_port:
+                title: Target Port
+                type: string
+                x-walrus-ui:
+                  order: 5
+            required:
+            - name
+            - port
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 3
+        type:
+          title: Type
+          type: string
+          description: '(Optional) Default is ClusterIP. Can accept: NodePort , LoadBalancer
+            .'
+          x-walrus-ui:
+            group: Basic
+            order: 4
+        load_balancer_ip:
+          title: Load Balancer Ip
+          type: string
+          description: (Optional) !!!Only applies with type = LoadBalancer!!! Define
+            External Static IP address.
+          x-walrus-ui:
+            group: Basic
+            order: 5
+        load_balancer_ips_whitelist:
+          title: Load Balancer Ips Whitelist
+          type: array
+          description: (Optional) !!!Only applies with type = LoadBalancer!!! Define
+            IPs cidr range for whitelist in Load Balancer. By default accept all IPs.
+          items:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 6
+        annotations:
+          title: Annotations
+          type: object
+          description: (Optional) Add annotations
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 7
+        custom_labels:
+          title: Custom Labels
+          type: object
+          description: (Optional) Custom labels & selector
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 8
+      x-walrus-ui:
+        groupOrder:
+        - Basic

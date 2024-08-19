@@ -1,0 +1,192 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI schema for template ingress
+components:
+  schemas:
+    variables:
+      type: object
+      required:
+      - message
+      properties:
+        app_name:
+          title: App Name
+          type: string
+          description: (Required) Application name for attach to service
+          x-walrus-ui:
+            group: Basic
+            order: 1
+        app_namespace:
+          title: App Namespace
+          type: string
+          description: (Required) Namespace where located application
+          x-walrus-ui:
+            group: Basic
+            order: 2
+        annotations:
+          title: Annotations
+          type: object
+          description: (Optional) Add annotations
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 3
+        custom_labels:
+          title: Custom Labels
+          type: object
+          description: (Optional) Custom labels & selector
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 4
+        default_backend:
+          title: Default Backend
+          type: array
+          default: []
+          items:
+            properties:
+              resource_api_group:
+                title: Resource Api Group
+                type: string
+                x-walrus-ui:
+                  order: 2
+              resource_kind:
+                title: Resource Kind
+                type: string
+                x-walrus-ui:
+                  order: 3
+              resource_name:
+                title: Resource Name
+                type: string
+                x-walrus-ui:
+                  order: 1
+              service_name:
+                title: Service Name
+                type: string
+                x-walrus-ui:
+                  order: 4
+              service_port_name:
+                title: Service Port Name
+                type: string
+                x-walrus-ui:
+                  order: 5
+              service_port_number:
+                title: Service Port Number
+                type: number
+                x-walrus-ui:
+                  order: 6
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 5
+        ingress_class_name:
+          title: Ingress Class Name
+          type: string
+          x-walrus-ui:
+            group: Basic
+            order: 6
+        http_rules:
+          title: Http Rules
+          type: array
+          default: []
+          items:
+            properties:
+              host:
+                title: Host
+                type: string
+                x-walrus-ui:
+                  order: 1
+              path:
+                title: Path
+                type: string
+                x-walrus-ui:
+                  order: 2
+              path_type:
+                title: Path Type
+                type: string
+                x-walrus-ui:
+                  order: 3
+              resource_api_group:
+                title: Resource Api Group
+                type: string
+                x-walrus-ui:
+                  order: 5
+              resource_kind:
+                title: Resource Kind
+                type: string
+                x-walrus-ui:
+                  order: 6
+              resource_name:
+                title: Resource Name
+                type: string
+                x-walrus-ui:
+                  order: 4
+              service_name:
+                title: Service Name
+                type: string
+                x-walrus-ui:
+                  order: 7
+              service_port_name:
+                title: Service Port Name
+                type: string
+                x-walrus-ui:
+                  order: 8
+              service_port_number:
+                title: Service Port Number
+                type: number
+                x-walrus-ui:
+                  order: 9
+            required:
+            - host
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 7
+        tls_rules:
+          title: Tls Rules
+          type: array
+          default: []
+          items:
+            properties:
+              hosts:
+                items:
+                  type: string
+                title: Hosts
+                type: array
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 1
+              secret_name:
+                title: Secret Name
+                type: string
+                x-walrus-ui:
+                  order: 2
+            required:
+            - hosts
+            type: object
+            x-walrus-ui:
+              colSpan: 12
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 8
+        message:
+          title: Message
+          type: string
+          description: The input message.
+          x-walrus-ui:
+            group: Basic
+            order: 1
+      x-walrus-ui:
+        groupOrder:
+        - Basic
