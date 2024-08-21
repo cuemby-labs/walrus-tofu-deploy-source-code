@@ -6,7 +6,7 @@ resource "kaniko_image" "image" {
   # Only handle git context. Explicitly use the git scheme.
   context     = "${local.formal_git_url}#refs/heads/${var.git_branch}"
   dockerfile  = var.dockerfile
-  destination = var.image
+  destination = "${var.registry_server}/${var.image}"
 
   git_username      = var.git_auth ? var.git_username : ""
   git_password      = var.git_auth ? var.git_password : ""
