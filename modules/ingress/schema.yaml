@@ -49,6 +49,32 @@ components:
           default: []
           items:
             properties:
+              resource:
+                items:
+                  properties:
+                    api_group:
+                      title: Api Group
+                      type: string
+                      x-walrus-ui:
+                        order: 2
+                    kind:
+                      title: Kind
+                      type: string
+                      x-walrus-ui:
+                        order: 3
+                    name:
+                      title: Name
+                      type: string
+                      x-walrus-ui:
+                        order: 1
+                  type: object
+                  x-walrus-ui:
+                    colSpan: 12
+                title: Resource
+                type: array
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 1
               resource_api_group:
                 title: Resource Api Group
                 type: string
@@ -64,6 +90,32 @@ components:
                 type: string
                 x-walrus-ui:
                   order: 1
+              service:
+                items:
+                  properties:
+                    name:
+                      title: Name
+                      type: string
+                      x-walrus-ui:
+                        order: 1
+                    port_name:
+                      title: Port Name
+                      type: string
+                      x-walrus-ui:
+                        order: 2
+                    port_number:
+                      title: Port Number
+                      type: number
+                      x-walrus-ui:
+                        order: 3
+                  type: object
+                  x-walrus-ui:
+                    colSpan: 12
+                title: Service
+                type: array
+                x-walrus-ui:
+                  colSpan: 12
+                  order: 2
               service_name:
                 title: Service Name
                 type: string
@@ -79,6 +131,9 @@ components:
                 type: number
                 x-walrus-ui:
                   order: 6
+            required:
+            - resource
+            - service
             type: object
             x-walrus-ui:
               colSpan: 12

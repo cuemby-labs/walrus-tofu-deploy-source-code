@@ -14,17 +14,26 @@ resource "kubernetes_ingress_v1" "ingress" {
       for_each = var.default_backend
 
       content {
-        resource {
-          name      = lookup(backend.value, "resource_name", null)
-          api_group = lookup(backend.value, "resource_api_group", null)
-          kind      = lookup(backend.value, "resource_kind", null)
+        dynamic "resource" {
+          iterator = resource
+          for_each = lookup(backend.value, "resource", [])
+          content {
+            name      = lookup(backend.value, "resource_name", null)
+            api_group = lookup(backend.value, "resource_api_group", null)
+            kind      = lookup(backend.value, "resource_kind", null)
+          }
         }
 
-        service {
-          name = lookup(backend.value, "service_name", null)
-          port {
-            name   = lookup(backend.value, "service_port_name", null)
-            number = lookup(backend.value, "service_port_number", null)
+        dynamic "service" {
+          iterator = service
+          for_each = lookup(backend.value, "service", [])
+
+          content {
+            name = lookup(backend.value, "service_name", null)
+            port {
+              name   = lookup(backend.value, "service_port_name", null)
+              number = lookup(backend.value, "service_port_number", null)
+            }
           }
         }
       }

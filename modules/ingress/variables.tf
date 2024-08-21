@@ -21,12 +21,16 @@ variable "custom_labels" {
 }
 variable "default_backend" {
   type = list(object({
-    resource_name       = optional(string)
-    resource_api_group  = optional(string)
-    resource_kind       = optional(string)
-    service_name        = optional(string)
-    service_port_name   = optional(string)
-    service_port_number = optional(number)
+    resource = list(object({
+      name      = optional(string)
+      api_group = optional(string)
+      kind      = optional(string)
+    }))
+    service = list(object({
+      name        = optional(string)
+      port_name   = optional(string)
+      port_number = optional(number)
+    }))
   }))
   default = []
 }
