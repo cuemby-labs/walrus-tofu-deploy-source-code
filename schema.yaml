@@ -66,6 +66,14 @@ components:
           x-walrus-ui:
             group: Basic
             order: 8
+        registry_server:
+          title: Registry Server
+          type: string
+          description: Server for the image registry.
+          default: docker.io
+          x-walrus-ui:
+            group: Basic
+            order: 8
         registry_username:
           title: Registry Username
           type: string

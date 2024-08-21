@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI schema for template image-pull-secret
+components:
+  schemas:
+    variables:
+      type: object
+      required:
+      - message
+      properties:
+        name:
+          title: Name
+          type: string
+          description: (Required) Name of the image pull secret
+          x-walrus-ui:
+            group: Basic
+            order: 1
+        namespace:
+          title: Namespace
+          type: string
+          description: (Optional) Namespace in which to create the image pull secret
+          default: default
+          x-walrus-ui:
+            group: Basic
+            order: 2
+        annotations:
+          title: Annotations
+          type: object
+          description: Annotations for image pull secret
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 3
+        custom_labels:
+          title: Custom Labels
+          type: object
+          description: (Optional) Add custom label to image pull secret
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 4
+        server:
+          title: Server
+          type: string
+          description: (Optional) Add server registry to image pull secret
+          x-walrus-ui:
+            group: Basic
+            order: 5
+        username:
+          title: Username
+          type: string
+          description: (Optional) Add username registry to image pull secret
+          x-walrus-ui:
+            group: Basic
+            order: 6
+        password:
+          title: Password
+          type: string
+          description: (Optional) Add password registry to image pull secret
+          x-walrus-ui:
+            group: Basic
+            order: 7
+        email:
+          title: Email
+          type: string
+          description: (Optional) Add email registry to image pull secret
+          x-walrus-ui:
+            group: Basic
+            order: 8
+        message:
+          title: Message
+          type: string
+          description: The input message.
+          x-walrus-ui:
+            group: Basic
+            order: 1
+      x-walrus-ui:
+        groupOrder:
+        - Basic

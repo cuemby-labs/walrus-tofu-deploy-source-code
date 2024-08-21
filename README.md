@@ -38,6 +38,7 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_deployment"></a> [deployment](#module\_deployment) | ./modules/deployment | n/a |
+| <a name="module_image_pull_secrets"></a> [image\_pull\_secrets](#module\_image\_pull\_secrets) | ./modules/image-pull-secret | n/a |
 | <a name="module_ingress"></a> [ingress](#module\_ingress) | ./modules/ingress | n/a |
 | <a name="module_service"></a> [service](#module\_service) | ./modules/service | n/a |
 
@@ -47,6 +48,7 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 |------|------|
 | [kaniko_image.image](https://registry.terraform.io/providers/seal-io/kaniko/0.0.3/docs/resources/image) | resource |
 | [kubernetes_ingress_v1.ingress](https://registry.terraform.io/providers/hashicorp/kubernetes/2.32.0/docs/data-sources/ingress_v1) | data source |
+| [kubernetes_secret.image_pull_secrets](https://registry.terraform.io/providers/hashicorp/kubernetes/2.32.0/docs/data-sources/secret) | data source |
 | [kubernetes_service.service](https://registry.terraform.io/providers/hashicorp/kubernetes/2.32.0/docs/data-sources/service) | data source |
 
 ## Inputs
@@ -74,6 +76,7 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | <a name="input_ports"></a> [ports](#input\_ports) | Service ports to expose | `list(number)` | <pre>[<br>  80<br>]</pre> | no |
 | <a name="input_registry_auth"></a> [registry\_auth](#input\_registry\_auth) | Registry authentication enabled. | `bool` | `false` | no |
 | <a name="input_registry_password"></a> [registry\_password](#input\_registry\_password) | Password for the image registry. | `string` | `null` | no |
+| <a name="input_registry_server"></a> [registry\_server](#input\_registry\_server) | Server for the image registry. | `string` | `"docker.io"` | no |
 | <a name="input_registry_username"></a> [registry\_username](#input\_registry\_username) | Username for the image registry. | `string` | `null` | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | Count of pods | `number` | `1` | no |
 | <a name="input_request_cpu"></a> [request\_cpu](#input\_request\_cpu) | CPU request. e.g. 0.5, 1, 2 | `string` | `"0.1"` | no |

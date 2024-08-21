@@ -16,6 +16,19 @@ resource "kaniko_image" "image" {
   always_run = true
 }
 
+module "image_pull_secrets" {
+  count = var.registry_auth ? 1 : 0
+
+  depends_on = [resource.kaniko_image.image]
+
+  source    = "./modules/image-pull-secret"
+  name      = local.name
+  namespace = local.namespace
+  server    = var.registry_server
+  username  = var.registry_username
+  password  = var.registry_password
+}
+
 ########
 # Deploy 
 ########
@@ -33,8 +46,11 @@ module "deployment" {
 
   name      = local.name
   namespace = local.namespace
-  image     = var.image
-  replicas  = var.replicas
+  image     = "${var.registry_server}/${var.image}"
+  image_pull_secrets = var.registry_auth ? {
+    (local.name) : data.kubernetes_secret.image_pull_secrets.metadata[0].name
+  } : {}
+  replicas = var.replicas
   resources = {
     request_cpu    = var.request_cpu == "" ? null : var.request_cpu
     limit_cpu      = var.limit_cpu == "" ? null : var.limit_cpu
@@ -84,6 +100,15 @@ module "ingress" {
   tls_rules = var.ingress_tls_enabled ? [{
     hosts = [var.ingress_host]
   }] : []
+}
+
+data "kubernetes_secret" "image_pull_secrets" {
+  depends_on = [module.image_pull_secrets]
+
+  metadata {
+    name      = local.name
+    namespace = local.namespace
+  }
 }
 
 data "kubernetes_service" "service" {

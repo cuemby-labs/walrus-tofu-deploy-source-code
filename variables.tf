@@ -61,6 +61,14 @@ variable "registry_auth" {
   default     = false
   description = "Registry authentication enabled."
 }
+# @label "Registry Server"
+# @group "Build"
+# @show_if "registry_auth=true"
+variable "registry_server" {
+  type        = string
+  default     = "docker.io"
+  description = "Server for the image registry."
+}
 # @label "Registry Username"
 # @group "Build"
 # @show_if "registry_auth=true"
@@ -166,6 +174,7 @@ variable "ingress_enabled" {
 }
 # @group "Expose/Basic"
 # @label "Ingress Enabled TLS"
+# @show_if "ingress_enabled=true"
 variable "ingress_tls_enabled" {
   type        = bool
   description = "(Optional) Enabled TLS."
@@ -173,6 +182,7 @@ variable "ingress_tls_enabled" {
 }
 # @group "Expose/Basic"
 # @label "Ingress Host"
+# @show_if "ingress_enabled=true"
 variable "ingress_host" {
   type        = string
   description = "(Optional) Add ingress host."
@@ -180,6 +190,7 @@ variable "ingress_host" {
 }
 # @group "Expose/Advanced"
 # @label "Ingress Annotations"
+# @show_if "ingress_enabled=true"
 variable "ingress_annotations" {
   type        = map(string)
   description = "(Optional) Add annotations"
@@ -187,6 +198,7 @@ variable "ingress_annotations" {
 }
 # @group "Expose/Advanced"
 # @label "Ingress Class Name"
+# @show_if "ingress_enabled=true"
 variable "ingress_class_name" {
   type        = string
   description = "(Optional) Add an ingress class name."
