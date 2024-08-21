@@ -186,6 +186,10 @@ components:
                       type: string
                       x-walrus-ui:
                         order: 1
+                  required:
+                  - api_group
+                  - kind
+                  - name
                   type: object
                   x-walrus-ui:
                     colSpan: 12
@@ -227,6 +231,10 @@ components:
                       type: number
                       x-walrus-ui:
                         order: 3
+                  required:
+                  - name
+                  - port_name
+                  - port_number
                   type: object
                   x-walrus-ui:
                     colSpan: 12

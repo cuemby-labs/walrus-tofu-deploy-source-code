@@ -56,14 +56,14 @@ resource "kubernetes_ingress_v1" "ingress" {
                 iterator = backend
                 for_each = lookup(rule.value, "resource", [])
                 content {
-                  name      = lookup(rule.value, "name", null)
-                  api_group = lookup(rule.value, "api_group", null)
-                  kind      = lookup(rule.value, "kind", null)
+                  name      = lookup(resource.value, "name", null)
+                  api_group = lookup(resource.value, "api_group", null)
+                  kind      = lookup(resource.value, "kind", null)
                 }
               }
               dynamic "service" {
                 iterator = service
-                for_each = lookup(rule.value, "service", null)
+                for_each = lookup(rule.value, "service", [])
 
                 content {
                   name = lookup(service.value, "name", null)

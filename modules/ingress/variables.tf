@@ -44,14 +44,14 @@ variable "http_rules" {
     path      = optional(string)
     path_type = optional(string)
     resource = optional(list(object({
-      name      = optional(string)
-      api_group = optional(string)
-      kind      = optional(string)
+      name      = string
+      api_group = string
+      kind      = string
     })))
     service = optional(list(object({
-      name        = optional(string)
-      port_name   = optional(string)
-      port_number = optional(number)
+      name        = string
+      port_name   = string
+      port_number = number
     })))
   }))
   default = []
