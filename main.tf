@@ -73,7 +73,8 @@ module "ingress" {
   annotations        = var.ingress_annotations
   ingress_class_name = var.ingress_class_name
   http_rules = [{
-    host = var.ingress_host
+    host     = var.ingress_host
+    resource = []
     service = [{
       name        = data.kubernetes_service.service.metadata[0].name
       port_number = data.kubernetes_service.service.spec[0].port[0].port
