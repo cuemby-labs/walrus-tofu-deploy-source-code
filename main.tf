@@ -98,7 +98,8 @@ module "ingress" {
     }]
   }]
   tls_rules = var.ingress_tls_enabled ? [{
-    hosts = [var.ingress_host]
+    hosts       = [var.ingress_host]
+    secret_name = replace(var.ingress_host, ".", "-")
   }] : []
 }
 
