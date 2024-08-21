@@ -50,8 +50,8 @@ variable "http_rules" {
     })))
     service = optional(list(object({
       name        = string
-      port_name   = string
-      port_number = number
+      port_name   = optional(string)
+      port_number = optional(number)
     })))
   }))
   default = []

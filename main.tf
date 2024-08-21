@@ -78,7 +78,7 @@ module "ingress" {
     service = [{
       name        = data.kubernetes_service.service.metadata[0].name
       port_number = data.kubernetes_service.service.spec[0].port[0].port
-      port_name   = data.kubernetes_service.service.spec[0].port[0].name
+      # port_name   = data.kubernetes_service.service.spec[0].port[0].name
     }]
   }]
   tls_rules = var.ingress_tls_enabled ? [{
