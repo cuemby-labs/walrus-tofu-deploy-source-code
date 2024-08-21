@@ -40,15 +40,19 @@ variable "ingress_class_name" {
 }
 variable "http_rules" {
   type = list(object({
-    host                = string
-    path                = optional(string)
-    path_type           = optional(string)
-    resource_name       = optional(string)
-    resource_api_group  = optional(string)
-    resource_kind       = optional(string)
-    service_name        = optional(string)
-    service_port_name   = optional(string)
-    service_port_number = optional(number)
+    host      = string
+    path      = optional(string)
+    path_type = optional(string)
+    resource = optional(list(object({
+      name      = optional(string)
+      api_group = optional(string)
+      kind      = optional(string)
+    })))
+    service = optional(list(object({
+      name        = optional(string)
+      port_name   = optional(string)
+      port_number = optional(number)
+    })))
   }))
   default = []
 }

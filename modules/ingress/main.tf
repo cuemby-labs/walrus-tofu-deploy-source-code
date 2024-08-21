@@ -52,16 +52,25 @@ resource "kubernetes_ingress_v1" "ingress" {
             path      = lookup(rule.value, "path", "/")
             path_type = lookup(rule.value, "path_type", "Prefix")
             backend {
-              resource {
-                name      = lookup(rule.value, "resource_name", null)
-                api_group = lookup(rule.value, "resource_api_group", null)
-                kind      = lookup(rule.value, "resource_kind", null)
+              dynamic "resource" {
+                iterator = backend
+                for_each = lookup(rule.value, "resource", [])
+                content {
+                  name      = lookup(rule.value, "name", null)
+                  api_group = lookup(rule.value, "api_group", null)
+                  kind      = lookup(rule.value, "kind", null)
+                }
               }
-              service {
-                name = lookup(rule.value, "service_name", null)
-                port {
-                  name   = lookup(rule.value, "service_port_name", null)
-                  number = lookup(rule.value, "service_port_number", null)
+              dynamic "service" {
+                iterator = service
+                for_each = lookup(rule.value, "service", null)
+
+                content {
+                  name = lookup(service.value, "name", null)
+                  port {
+                    name   = lookup(service.value, "port_name", null)
+                    number = lookup(service.value, "port_number", null)
+                  }
                 }
               }
             }
