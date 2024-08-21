@@ -30,6 +30,16 @@ components:
           description: (Required) Mapping ports from container to expose port
           items:
             properties:
+              external_port:
+                title: External Port
+                type: number
+                x-walrus-ui:
+                  order: 2
+              internal_port:
+                title: Internal Port
+                type: string
+                x-walrus-ui:
+                  order: 5
               name:
                 title: Name
                 type: string

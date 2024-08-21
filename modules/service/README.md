@@ -96,7 +96,7 @@ No modules.
 | <a name="input_custom_labels"></a> [custom\_labels](#input\_custom\_labels) | (Optional) Custom labels & selector | `map(string)` | `null` | no |
 | <a name="input_load_balancer_ip"></a> [load\_balancer\_ip](#input\_load\_balancer\_ip) | (Optional) !!!Only applies with type = LoadBalancer!!! Define External Static IP address. | `string` | `null` | no |
 | <a name="input_load_balancer_ips_whitelist"></a> [load\_balancer\_ips\_whitelist](#input\_load\_balancer\_ips\_whitelist) | (Optional) !!!Only applies with type = LoadBalancer!!! Define IPs cidr range for whitelist in Load Balancer. By default accept all IPs. | `list(string)` | `null` | no |
-| <a name="input_port_mapping"></a> [port\_mapping](#input\_port\_mapping) | (Required) Mapping ports from container to expose port | <pre>list(object({<br>    name        = string<br>    port        = number<br>    protocol    = optional(string)<br>    node_port   = optional(number)<br>    target_port = optional(string)<br>  }))</pre> | n/a | yes |
+| <a name="input_port_mapping"></a> [port\_mapping](#input\_port\_mapping) | (Required) Mapping ports from container to expose port | <pre>list(object({<br>    name          = string<br>    external_port = number<br>    protocol      = optional(string)<br>    node_port     = optional(number)<br>    internal_port = string<br>  }))</pre> | n/a | yes |
 | <a name="input_type"></a> [type](#input\_type) | (Optional) Default is ClusterIP. Can accept: NodePort , LoadBalancer . | `string` | `null` | no |
 
 ## Outputs

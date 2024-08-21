@@ -8,11 +8,11 @@ variable "app_namespace" {
 }
 variable "port_mapping" {
   type = list(object({
-    name        = string
-    port        = number
-    protocol    = optional(string)
-    node_port   = optional(number)
-    target_port = optional(string)
+    name          = string
+    external_port = number
+    protocol      = optional(string)
+    node_port     = optional(number)
+    internal_port = string
   }))
   description = "(Required) Mapping ports from container to expose port"
 }
