@@ -34,8 +34,8 @@ output "walrus_resource_id" {
 
 output "walrus_endpoints" {
   value = {
-    external_url     = data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].hostname
-    load_balancer_ip = data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip
+    external_url     = var.ingress_enabled ? var.ingress_host : ""
+    load_balancer_ip = var.ingress_enabled ? data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip : data.kubernetes_service.service.spec[0].cluster_ip
   }
   description = "URL of the service"
 }
