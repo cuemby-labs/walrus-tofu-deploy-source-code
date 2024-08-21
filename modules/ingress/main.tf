@@ -37,7 +37,7 @@ resource "kubernetes_ingress_v1" "ingress" {
       for_each = var.http_rules
 
       content {
-        host = rule.vale.host
+        host = rule.value.host
         http {
           path {
             path      = lookup(rule.value, "path", "/")
