@@ -161,6 +161,13 @@ variable "name" {
   description = "Name of the deployment resource. Auto-generated if empty."
   default     = ""
 }
+# @group "Deploy/Advanced"
+# @label "Deployment Annotation"
+variable "deployment_annotations" {
+  type        = map(string)
+  description = "(Optional) Add annotations"
+  default     = {}
+}
 
 ###############
 # Expose
