@@ -58,7 +58,6 @@ module "deployment" {
     limit_memory   = var.limit_memory == "" ? null : var.limit_memory
   }
   env = var.env
-  template_annotations = []
   deployment_annotations = var.deployment_annotations
 }
 

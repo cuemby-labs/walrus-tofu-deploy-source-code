@@ -10,7 +10,7 @@ variable "namespace" {
 variable "deployment_annotations" {
   description = "Annotations for deployment"
   type        = map(string)
-  default     = []
+  default     = null
 }
 variable "template_annotations" {
   description = "Annotations for pod (template)"

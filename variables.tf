@@ -166,7 +166,7 @@ variable "name" {
 variable "deployment_annotations" {
   type        = map(string)
   description = "(Optional) Add annotations"
-  default     = {}
+  default     = null
 }
 
 ###############
