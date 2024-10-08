@@ -107,7 +107,7 @@ resource "null_resource" "wait_for_url" {
   provisioner "local-exec" {
     command = <<EOT
     while true; do
-      status=$(curl -o /dev/null -s -w "%{http_code}" -H "Accept: application/json" --insecure --head https://${var.ingress_host})
+      status=$(curl -o /dev/null -s -w %%{http_code} -H "Accept: application/json" --insecure --head https://${var.ingress_host})
       if [ "$status" -eq 200 ]; then
         echo "URL is active and SSL certificate is valid, proceeding with execution."
         break

@@ -25,6 +25,7 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
 | <a name="requirement_kaniko"></a> [kaniko](#requirement\_kaniko) | 0.0.3 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | 2.32.0 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | 3.2.3 |
 
 ## Providers
 
@@ -32,6 +33,7 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 |------|---------|
 | <a name="provider_kaniko"></a> [kaniko](#provider\_kaniko) | 0.0.3 |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.32.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | 3.2.3 |
 
 ## Modules
 
@@ -47,6 +49,7 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | Name | Type |
 |------|------|
 | [kaniko_image.image](https://registry.terraform.io/providers/seal-io/kaniko/0.0.3/docs/resources/image) | resource |
+| [null_resource.wait_for_url](https://registry.terraform.io/providers/hashicorp/null/3.2.3/docs/resources/resource) | resource |
 | [kubernetes_ingress_v1.ingress](https://registry.terraform.io/providers/hashicorp/kubernetes/2.32.0/docs/data-sources/ingress_v1) | data source |
 | [kubernetes_secret.image_pull_secrets](https://registry.terraform.io/providers/hashicorp/kubernetes/2.32.0/docs/data-sources/secret) | data source |
 | [kubernetes_service.service](https://registry.terraform.io/providers/hashicorp/kubernetes/2.32.0/docs/data-sources/service) | data source |
