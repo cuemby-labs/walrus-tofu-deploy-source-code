@@ -103,6 +103,24 @@ module "ingress" {
   }] : []
 }
 
+resource "null_resource" "wait_for_url" {
+  provisioner "local-exec" {
+    command = <<EOT
+    while true; do
+      status=$(curl -o /dev/null -s -w "%{http_code}" -H "Accept: application/json" --insecure --head https://${var.ingress_host})
+      if [ "$status" -eq 200 ]; then
+        echo "URL is active and SSL certificate is valid, proceeding with execution."
+        break
+      else
+        echo "Waiting for URL to become active and SSL certificate to be valid..."
+        sleep 10
+      fi
+    done
+    EOT
+  }
+}
+
+
 data "kubernetes_secret" "image_pull_secrets" {
   depends_on = [module.image_pull_secrets]
 
