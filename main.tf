@@ -142,21 +142,14 @@ locals {
 # HPA
 #######
 
-locals {
-  walrus_project_name     = try(local.context["project"]["name"], null)
-  walrus_environment_name = try(local.context["environment"]["name"], null)
-  walrus_resource_name    = try(local.context["resource"]["name"], null)
-}
-
 data "template_file" "manifest_template" {
   template = file("${path.module}/manifests/scaler.yaml.tpl")
   vars     = {
-    walrus_project_name     = local.walrus_project_name,
-    walrus_resource_name    = local.walrus_resource_name,
-    walrus_environment_name = local.walrus_environment_name,
-    limit_cpu               = var.limit_cpu,
-    limit_memory            = var.limit_memory,
-    replicas                = var.replicas
+    name         = local.name,
+    namespace    = local.namespace,
+    limit_cpu    = var.limit_cpu,
+    limit_memory = var.limit_memory,
+    replicas     = var.replicas
   }
 }
 
