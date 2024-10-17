@@ -18,8 +18,8 @@ spec:
     - type: cpu
       metadata:
         type: "AverageValue" 
-        value: ${request_cpu} 
+        value: ${limit_cpu} 
     - type: memory
       metadata:
         type: "AverageValue" 
-        value: ${request_memory}
+        value: ${limit_memory}

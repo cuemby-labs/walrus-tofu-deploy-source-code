@@ -150,8 +150,8 @@ data "template_file" "manifest_template" {
   template = file("${path.module}/manifests/scaler.yaml.tpl")
   vars     = {
     walrus_resource_name = local.walrus_resource_name,
-    request_cpu          = var.request_cpu,
-    request_memory       = var.request_memory,
+    limit_cpu            = var.limit_cpu,
+    limit_memory         = var.limit_memory,
     namespace            = var.namespace,
     replicas             = var.replicas
   }
