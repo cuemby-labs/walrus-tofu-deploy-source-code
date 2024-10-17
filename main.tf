@@ -165,7 +165,8 @@ data "kubectl_file_documents" "manifest_files" {
 }
 
 resource "kubectl_manifest" "apply_manifests" {
-  for_each  = { for index, doc in data.kubectl_file_documents.manifest_files.documents : index => doc }
+  depends_on = [module.deployment]
 
+  for_each  = { for index, doc in data.kubectl_file_documents.manifest_files.documents : index => doc }
   yaml_body = each.value
 }
