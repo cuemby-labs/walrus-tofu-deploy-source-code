@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: OpenAPI schema for template walrus-tofu-deploy-source-code
+  title: OpenAPI schema for template .
 components:
   schemas:
     variables:
@@ -57,7 +57,7 @@ components:
           default: Dockerfile
           x-walrus-ui:
             group: Basic
-            order: 7
+            order: 6
         registry_auth:
           title: Registry Auth
           type: boolean
@@ -65,7 +65,7 @@ components:
           default: false
           x-walrus-ui:
             group: Basic
-            order: 8
+            order: 7
         registry_server:
           title: Registry Server
           type: string
@@ -178,6 +178,16 @@ components:
           x-walrus-ui:
             group: Basic
             order: 20
+        deployment_annotations:
+          title: Deployment Annotations
+          type: object
+          description: (Optional) Add annotations
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 21
         ingress_enabled:
           title: Ingress Enabled
           type: boolean
@@ -185,7 +195,7 @@ components:
           default: false
           x-walrus-ui:
             group: Basic
-            order: 21
+            order: 22
         ingress_tls_enabled:
           title: Ingress Tls Enabled
           type: boolean
@@ -193,7 +203,7 @@ components:
           default: false
           x-walrus-ui:
             group: Basic
-            order: 22
+            order: 23
         ingress_host:
           title: Ingress Host
           type: string
@@ -201,7 +211,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 23
+            order: 24
         ingress_annotations:
           title: Ingress Annotations
           type: object
@@ -212,7 +222,7 @@ components:
           x-walrus-ui:
             colSpan: 12
             group: Basic
-            order: 24
+            order: 25
         ingress_class_name:
           title: Ingress Class Name
           type: string
@@ -220,7 +230,7 @@ components:
           default: nginx
           x-walrus-ui:
             group: Basic
-            order: 25
+            order: 26
         walrus_metadata_service_name:
           title: Walrus Metadata Service Name
           type: string
@@ -228,7 +238,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 26
+            order: 27
         walrus_metadata_namespace_name:
           title: Walrus Metadata Namespace Name
           type: string
@@ -236,14 +246,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 27
-        git_path:
-          title: Git Path
-          type: string
-          description: Path to the source code.
-          x-walrus-ui:
-            group: Basic
-            order: 6
+            order: 28
       x-walrus-ui:
         groupOrder:
         - Basic

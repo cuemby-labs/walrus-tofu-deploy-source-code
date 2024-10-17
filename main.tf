@@ -58,6 +58,7 @@ module "deployment" {
     limit_memory   = var.limit_memory == "" ? null : var.limit_memory
   }
   env = var.env
+  deployment_annotations = var.deployment_annotations
 }
 
 module "service" {
@@ -155,4 +156,33 @@ locals {
   name           = coalesce(try(var.name, null), try(var.walrus_metadata_service_name, null), try(var.context["resource"]["name"], null))
   namespace      = coalesce(try(var.namespace, null), try(var.walrus_metadata_namespace_name, null), try(var.context["environment"]["namespace"], null))
   formal_git_url = replace(var.git_url, "https://", "git://")
+}
+
+#######
+# HPA
+#######
+
+locals {
+  walrus_resource_name = try(local.context["environment"]["name"], null)
+}
+
+data "template_file" "manifest_template" {
+  template = file("${path.module}/manifests/scaler.yaml.tpl")
+  vars     = {
+    walrus_resource_name = local.walrus_resource_name,
+    limit_cpu            = var.limit_cpu,
+    limit_memory         = var.limit_memory,
+    namespace            = var.namespace,
+    replicas             = var.replicas
+  }
+}
+
+data "kubectl_file_documents" "manifest_files" {
+  content = data.template_file.manifest_template.rendered
+}
+
+resource "kubectl_manifest" "apply_manifests" {
+  for_each  = { for index, doc in data.kubectl_file_documents.manifest_files.documents : index => doc }
+
+  yaml_body = each.value
 }
