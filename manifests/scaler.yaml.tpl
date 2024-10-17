@@ -2,7 +2,7 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: ${walrus_resource_name}
-  namespace: ${namespace}
+  namespace: ${walrus_project_name}-${walrus_environment_name}
   labels:
     app: ${walrus_resource_name}
 spec:
