@@ -142,24 +142,16 @@ locals {
 # HPA
 #######
 
-data "template_file" "manifest_template" {
-  template = file("${path.module}/manifests/scaler.yaml.tpl")
-  vars     = {
-    name         = local.name,
-    namespace    = local.namespace,
-    limit_cpu    = var.limit_cpu,
-    limit_memory = var.limit_memory,
-    replicas     = var.replicas
-  }
-}
+module "keda_scaleobject" {
+  depends_on         = [module.deployment, module.service]
 
-data "kubectl_file_documents" "manifest_files" {
-  content = data.template_file.manifest_template.rendered
-}
+  # Use local paths to avoid accessing external networks
+  # This module comes from terraform registry "terraform-iaac/deployment/kubernetes 1.0.0"
+  source = "./modules/keda"
 
-resource "kubectl_manifest" "apply_manifests" {
-  depends_on = [module.deployment]
-
-  for_each  = { for index, doc in data.kubectl_file_documents.manifest_files.documents : index => doc }
-  yaml_body = each.value
+  name         = local.name
+  namespace    = local.namespace
+  replicas     = var.replicas
+  limit_cpu    = var.limit_cpu == "" ? null : var.limit_cpu
+  limit_memory = var.limit_memory == "" ? null : var.limit_memory
 }
