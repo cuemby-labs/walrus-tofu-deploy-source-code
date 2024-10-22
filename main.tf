@@ -156,3 +156,21 @@ locals {
   namespace      = coalesce(try(var.namespace, null), try(var.walrus_metadata_namespace_name, null), try(var.context["environment"]["namespace"], null))
   formal_git_url = replace(var.git_url, "https://", "git://")
 }
+
+#######
+# HPA
+#######
+
+module "keda_scaleobject" {
+  depends_on         = [module.deployment, module.service]
+
+  # Use local paths to avoid accessing external networks
+  # This module comes from terraform registry "terraform-iaac/deployment/kubernetes 1.0.0"
+  source = "./modules/keda"
+
+  name         = local.name
+  namespace    = local.namespace
+  replicas     = var.replicas
+  limit_cpu    = var.limit_cpu == "" ? null : var.limit_cpu
+  limit_memory = var.limit_memory == "" ? null : var.limit_memory
+}
