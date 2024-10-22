@@ -43,6 +43,7 @@ Please read our [contributing guide](./docs/CONTRIBUTING.md) if you're intereste
 | <a name="module_image_pull_secrets"></a> [image\_pull\_secrets](#module\_image\_pull\_secrets) | ./modules/image-pull-secret | n/a |
 | <a name="module_ingress"></a> [ingress](#module\_ingress) | ./modules/ingress | n/a |
 | <a name="module_service"></a> [service](#module\_service) | ./modules/service | n/a |
+| <a name="module_keda"></a> [keda](#module\_keda) | ./modules/keda | n/a |
 
 ## Resources
 
