@@ -103,24 +103,24 @@ module "ingress" {
   }] : []
 }
 
-resource "null_resource" "wait_for_url" {
-  provisioner "local-exec" {
-    command = <<EOT
+# resource "null_resource" "wait_for_url" {
+#   provisioner "local-exec" {
+#     command = <<EOT
 
-    status=$(curl -i  https://${var.ingress_host} | grep "HTTP")
-      if [ "$status" = "" ]; then
-        echo "Waiting for URL to become active and SSL certificate to be valid..."
-        sleep 10
-      else
-        echo "URL is active and SSL certificate is valid, proceeding with execution."
-        break
-      fi
-    done
+#     status=$(curl -i  https://${var.ingress_host} | grep "HTTP")
+#       if [ "$status" = "" ]; then
+#         echo "Waiting for URL to become active and SSL certificate to be valid..."
+#         sleep 10
+#       else
+#         echo "URL is active and SSL certificate is valid, proceeding with execution."
+#         break
+#       fi
+#     done
 
     
-    EOT
-  }
-}
+#     EOT
+#   }
+# }
 
 
 data "kubernetes_secret" "image_pull_secrets" {
