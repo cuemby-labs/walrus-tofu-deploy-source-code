@@ -26,14 +26,18 @@ resource "kubernetes_manifest" "scaled_deployment" {
 
         "triggers" = [
             {
-                type            = "cpu"
-                metadata_type   = "AverageValue"
-                metadata_value  = var.limit_cpu
+            type      = "cpu"
+                metadata  = {
+                    type  = "Utilization"
+                    value = 80
+                },
             },
             {
-                type            = "memory"
-                metadata_type   = "AverageValue"
-                metadata_value  = var.limit_memory
+            type      = "memory"
+                metadata  = {
+                    type  = "Utilization"
+                    value = 80
+                },
             }
     ]
     }
