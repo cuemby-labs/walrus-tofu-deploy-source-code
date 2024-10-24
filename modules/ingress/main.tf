@@ -9,6 +9,10 @@ resource "kubernetes_ingress_v1" "ingress" {
             deny all; 
             return 404; 
           }
+          location = /Dockerfile {
+            deny all;
+            return 404;
+          }
         EOT
       },
       var.annotations
