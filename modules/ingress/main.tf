@@ -2,7 +2,17 @@ resource "kubernetes_ingress_v1" "ingress" {
   metadata {
     name        = var.app_name
     namespace   = var.app_namespace
-    annotations = var.annotations
+    annotations = merge(
+      {
+        "nginx.ingress.kubernetes.io/server-snippet" = <<-EOT
+          location ~ /\.git { 
+            deny all; 
+            return 404; 
+          }
+        EOT
+      },
+      var.annotations
+    )
     labels      = local.labels
   }
 
