@@ -3,8 +3,8 @@
 #######
 
 resource "kaniko_image" "image" {
-  # Only handle git context. Explicitly use the git scheme.
-  context     = "${local.formal_git_url}#refs/heads/${var.git_branch}"
+  # Context: use tag if provided, otherwise use branch
+  context     = "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
   dockerfile  = var.dockerfile
   destination = "${var.registry_server}/${var.image}"
 

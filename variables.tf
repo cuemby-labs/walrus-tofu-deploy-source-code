@@ -15,6 +15,13 @@ variable "git_branch" {
   default     = "main"
   description = "Branch of the repository to clone."
 }
+# @label "Git Tag"
+# @group "Build"
+variable "git_tag" {
+  type        = string
+  default     = ""
+  description = "Tag of the repository to clone."
+}
 # @label "Git Authentication"
 # @group "Build"
 variable "git_auth" {
