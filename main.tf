@@ -16,10 +16,16 @@ resource "kaniko_image" "image" {
   always_run = true
 }
 
+# Add delay to wait for the image to be uploaded into the registry
+
+resource "time_sleep" "delay" {
+  create_duration = "300s"
+}
+
 module "image_pull_secrets" {
   count = var.registry_auth ? 1 : 0
 
-  depends_on = [resource.kaniko_image.image]
+  depends_on = [resource.time_sleep.delay]
 
   source    = "./modules/image-pull-secret"
   name      = local.name
@@ -34,7 +40,7 @@ module "image_pull_secrets" {
 ########
 
 module "deployment" {
-  depends_on = [resource.kaniko_image.image]
+  depends_on = [resource.time_sleep.delay]
 
   # disable wait for all pods be ready.
   #
@@ -61,7 +67,7 @@ module "deployment" {
 }
 
 module "service" {
-  depends_on = [resource.kaniko_image.image]
+  depends_on = [resource.time_sleep.delay]
 
   # Use local paths to avoid accessing external networks
   # This module comes from terraform registry "terraform-iaac/service/kubernetes 1.0.4"
