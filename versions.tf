@@ -10,6 +10,14 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "2.32.0"
     }
+    template = {
+      source  = "hashicorp/template"
+      version = ">= 2.2.0"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.14"
+    }
     null = {
       source  = "hashicorp/null"
       version = "3.2.3"
@@ -17,6 +25,10 @@ terraform {
     time = {
       source  = "hashicorp/time"
       version = "~> 0.7"
+    }
+    local = {
+      source = "hashicorp/local"
+      version = "~> 2.0"
     }
   }
 }
