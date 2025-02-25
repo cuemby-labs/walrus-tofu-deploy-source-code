@@ -55,12 +55,12 @@ data "template_file" "knative_service_template" {
   }
 }
 
-data "kubectl_file_documents" "no_container_image_file" {
-  content = data.template_file.no_container_image_template.rendered
+data "kubectl_file_documents" "knative_service_file" {
+  content = data.template_file.knative_service_template.rendered
 }
 
-resource "kubectl_manifest" "no_container_image" {
-  for_each  = data.kubectl_file_documents.no_container_image_file.manifests
+resource "kubectl_manifest" "knative_service_manifest" {
+  for_each  = data.kubectl_file_documents.knative_service_file.manifests
   yaml_body = each.value
 }
 
