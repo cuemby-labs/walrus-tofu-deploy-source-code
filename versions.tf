@@ -30,5 +30,9 @@ terraform {
       source = "hashicorp/local"
       version = "~> 2.0"
     }
+    knative = {
+      source = "theomessin/knative"
+      version = "0.1.1"
+    }
   }
 }

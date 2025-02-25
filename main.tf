@@ -40,7 +40,7 @@ module "image_pull_secrets" {
 
 resource "kubernetes_namespace" "knative_service" {
   metadata {
-    name = local.namespace
+    name = var.namespace
   }
 }
 
@@ -62,6 +62,10 @@ data "kubectl_file_documents" "knative_service_file" {
 resource "kubectl_manifest" "knative_service_manifest" {
   for_each  = data.kubectl_file_documents.knative_service_file.manifests
   yaml_body = each.value
+}
+
+data "knative_service" "serverless_app" {
+  name = var.name
 }
 
 ########
