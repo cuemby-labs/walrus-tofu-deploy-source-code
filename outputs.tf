@@ -32,19 +32,27 @@ output "walrus_resource_id" {
   description = "The id of resource where deployed in Walrus."
 }
 
-output "walrus_endpoints" {
+# output "walrus_endpoints" {
+#   value = {
+#     internal_url        = "http://${data.kubernetes_service.service.metadata[0].name}.${data.kubernetes_service.service.metadata[0].namespace}"
+#     internal_service_ip = data.kubernetes_service.service.spec[0].cluster_ip
+#     external_url        = var.ingress_enabled ? "https://${var.ingress_host}" : ""
+#     load_balancer_ip    = var.ingress_enabled ? data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip : ""
+#   }
+#   description = "URL of the service"
+# }
+
+# output "service_ip" {
+#   description = "Service IP"
+#   value       = data.kubernetes_service.service.spec[0].cluster_ip
+# }
+
+output "knative_service" {
   value = {
-    internal_url        = "http://${data.kubernetes_service.service.metadata[0].name}.${data.kubernetes_service.service.metadata[0].namespace}"
-    internal_service_ip = data.kubernetes_service.service.spec[0].cluster_ip
-    external_url        = var.ingress_enabled ? "https://${var.ingress_host}" : ""
-    load_balancer_ip    = var.ingress_enabled ? data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip : ""
+    address = data.knative_service.serverless_app.address
+    url     = data.knative_service.serverless_app.url
   }
   description = "URL of the service"
-}
-
-output "service_ip" {
-  description = "Service IP"
-  value       = data.kubernetes_service.service.spec[0].cluster_ip
 }
 
 output "ports" {
