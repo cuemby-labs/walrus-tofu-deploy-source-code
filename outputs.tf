@@ -49,8 +49,8 @@ output "walrus_resource_id" {
 
 output "knative_service" {
   value = {
-    address = data.knative_service.serverless_app.address
-    url     = data.knative_service.serverless_app.url
+    address = data.knative_service.serverless_app.status.address.url
+    url     = data.knative_service.serverless_app.status.url
   }
   description = "URL of the service"
 }

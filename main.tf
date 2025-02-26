@@ -51,7 +51,12 @@ data "template_file" "knative_service_template" {
     namespace       = var.namespace,
     registry_server = var.registry_server,
     image           = var.image,
-    container_ports = local.container_ports
+    container_ports = local.container_ports,
+    replicas        = var.replicas,
+    request_cpu     = var.request_cpu == "" ? null : var.request_cpu,
+    limit_cpu       = var.limit_cpu == "" ? null : var.limit_cpu,
+    request_memory  = var.request_memory == "" ? null : var.request_memory,
+    limit_memory    = var.limit_memory == "" ? null : var.limit_memory
   }
 }
 

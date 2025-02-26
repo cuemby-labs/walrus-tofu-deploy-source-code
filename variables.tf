@@ -121,11 +121,11 @@ variable "ports" {
 }
 # @label "Environment Variables"
 # @group "Deploy/Basic"
-variable "env" {
-  type        = map(string)
-  description = "Name and value pairs to set as the environment variables"
-  default     = {}
-}
+# variable "env" {
+#   type        = map(string)
+#   description = "Name and value pairs to set as the environment variables"
+#   default     = {}
+# }
 # @group "Deploy/Resources"
 # @label "CPU Request"
 variable "request_cpu" {
@@ -174,43 +174,43 @@ variable "name" {
 ###############
 # @group "Expose/Basic"
 # @label "Ingress Enabled"
-variable "ingress_enabled" {
-  type        = bool
-  description = "(Optional) Enabled exposing via ingress."
-  default     = false
-}
+# variable "ingress_enabled" {
+#   type        = bool
+#   description = "(Optional) Enabled exposing via ingress."
+#   default     = false
+# }
 # @group "Expose/Basic"
 # @label "Ingress Enabled TLS"
 # @show_if "ingress_enabled=true"
-variable "ingress_tls_enabled" {
-  type        = bool
-  description = "(Optional) Enabled TLS."
-  default     = false
-}
+# variable "ingress_tls_enabled" {
+#   type        = bool
+#   description = "(Optional) Enabled TLS."
+#   default     = false
+# }
 # @group "Expose/Basic"
 # @label "Ingress Host"
 # @show_if "ingress_enabled=true"
-variable "ingress_host" {
-  type        = string
-  description = "(Optional) Add ingress host."
-  default     = ""
-}
+# variable "ingress_host" {
+#   type        = string
+#   description = "(Optional) Add ingress host."
+#   default     = ""
+# }
 # @group "Expose/Advanced"
 # @label "Ingress Annotations"
 # @show_if "ingress_enabled=true"
-variable "ingress_annotations" {
-  type        = map(string)
-  description = "(Optional) Add annotations"
-  default     = {}
-}
+# variable "ingress_annotations" {
+#   type        = map(string)
+#   description = "(Optional) Add annotations"
+#   default     = {}
+# }
 # @group "Expose/Advanced"
 # @label "Ingress Class Name"
 # @show_if "ingress_enabled=true"
-variable "ingress_class_name" {
-  type        = string
-  description = "(Optional) Add an ingress class name."
-  default     = "nginx"
-}
+# variable "ingress_class_name" {
+#   type        = string
+#   description = "(Optional) Add an ingress class name."
+#   default     = "nginx"
+# }
 
 
 ###############

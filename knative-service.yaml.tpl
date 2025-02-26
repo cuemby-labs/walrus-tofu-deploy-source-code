@@ -7,7 +7,7 @@ spec:
   template:
     metadata:
       annotations:  
-        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/minScale: "${replicas}"
         autoscaling.knative.dev/maxScale: "5"
     spec:
       containers:
@@ -17,3 +17,10 @@ ${container_ports}
           env:
             - name: TARGET
               value: "Knative!"
+          resources:
+            requests:
+              cpu: ${request_cpu}
+              memory: ${request_memory}
+            limits:
+              cpu: ${limit_cpu}
+              memory: ${limit_memory}
