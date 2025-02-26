@@ -47,16 +47,17 @@ module "image_pull_secrets" {
 data "template_file" "knative_service_template" {
   template = file("${path.module}/knative-service.yaml.tpl")
   vars     = {
-    name            = local.name,
-    namespace       = local.namespace,
-    registry_server = var.registry_server,
-    image           = var.image,
-    container_ports = local.container_ports,
-    replicas        = var.replicas,
-    request_cpu     = var.request_cpu == "" ? null : var.request_cpu,
-    limit_cpu       = var.limit_cpu == "" ? null : var.limit_cpu,
-    request_memory  = var.request_memory == "" ? null : var.request_memory,
-    limit_memory    = var.limit_memory == "" ? null : var.limit_memory
+    name               = local.name,
+    namespace          = local.namespace,
+    registry_server    = var.registry_server,
+    image              = var.image,
+    container_ports    = local.container_ports,
+    replicas           = var.replicas,
+    image_pull_secrets = local.image_pull_secrets,
+    request_cpu        = var.request_cpu == "" ? null : var.request_cpu,
+    limit_cpu          = var.limit_cpu == "" ? null : var.limit_cpu,
+    request_memory     = var.request_memory == "" ? null : var.request_memory,
+    limit_memory       = var.limit_memory == "" ? null : var.limit_memory
   }
 }
 
@@ -197,11 +198,14 @@ data "kubernetes_secret" "image_pull_secrets" {
 # }
 
 locals {
-  context         = var.context
-  name            = coalesce(try(var.name, null), try(var.walrus_metadata_service_name, null), try(var.context["resource"]["name"], null))
-  namespace       = coalesce(try(var.namespace, null), try(var.walrus_metadata_namespace_name, null), try(var.context["environment"]["namespace"], null))
-  formal_git_url  = replace(var.git_url, "https://", "git://")
-  container_ports = join("\n", [
+  context            = var.context
+  image_pull_secrets = var.registry_auth ? {
+    (local.name) : try(data.kubernetes_secret.image_pull_secrets.metadata[0].name, null)
+  } : {}
+  name               = coalesce(try(var.name, null), try(var.walrus_metadata_service_name, null), try(var.context["resource"]["name"], null))
+  namespace          = coalesce(try(var.namespace, null), try(var.walrus_metadata_namespace_name, null), try(var.context["environment"]["namespace"], null))
+  formal_git_url     = replace(var.git_url, "https://", "git://")
+  container_ports    = join("\n", [
     for p in var.ports : "            - containerPort: ${p}"
   ])
 }

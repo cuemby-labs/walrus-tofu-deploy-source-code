@@ -24,3 +24,5 @@ ${container_ports}
             limits:
               cpu: ${limit_cpu}
               memory: ${limit_memory}
+      imagePullSecrets:
+        - name: ${image_pull_secrets}
