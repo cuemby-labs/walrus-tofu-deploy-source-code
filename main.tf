@@ -199,9 +199,7 @@ data "kubernetes_secret" "image_pull_secrets" {
 
 locals {
   context            = var.context
-  image_pull_secrets = var.registry_auth ? {
-    (local.name) : try(data.kubernetes_secret.image_pull_secrets.metadata[0].name, null)
-  } : {}
+  image_pull_secrets = var.registry_auth ? try(data.kubernetes_secret.image_pull_secrets.metadata[0].name, "") : ""
   name               = coalesce(try(var.name, null), try(var.walrus_metadata_service_name, null), try(var.context["resource"]["name"], null))
   namespace          = coalesce(try(var.namespace, null), try(var.walrus_metadata_namespace_name, null), try(var.context["environment"]["namespace"], null))
   formal_git_url     = replace(var.git_url, "https://", "git://")
