@@ -71,9 +71,9 @@ resource "kubectl_manifest" "knative_service_manifest" {
   yaml_body = each.value
 }
 
-data "knative_service" "serverless_app" {
-  name = local.name
-}
+# data "knative_service" "serverless_app" {
+#   name = local.name
+# }
 
 ########
 # Deploy 

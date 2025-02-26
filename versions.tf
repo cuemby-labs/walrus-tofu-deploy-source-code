@@ -16,7 +16,7 @@ terraform {
     }
     kubectl = {
       source  = "gavinbunney/kubectl"
-      version = ">= 1.14"
+      version = ">= 1.14.0"
     }
     null = {
       source  = "hashicorp/null"
@@ -30,9 +30,9 @@ terraform {
       source = "hashicorp/local"
       version = "~> 2.0"
     }
-    knative = {
-      source = "theomessin/knative"
-      version = "0.1.1"
-    }
+    # knative = {
+    #   source = "theomessin/knative"
+    #   version = "0.1.1"
+    # }
   }
 }
