@@ -40,15 +40,15 @@ module "image_pull_secrets" {
 
 resource "kubernetes_namespace" "knative_service" {
   metadata {
-    name = var.namespace
+    name = local.namespace
   }
 }
 
 data "template_file" "knative_service_template" {
   template = file("${path.module}/knative-service.yaml.tpl")
   vars     = {
-    name            = var.name,
-    namespace       = var.namespace,
+    name            = local.name,
+    namespace       = local.namespace,
     registry_server = var.registry_server,
     image           = var.image,
     container_ports = local.container_ports,
@@ -65,12 +65,14 @@ data "kubectl_file_documents" "knative_service_file" {
 }
 
 resource "kubectl_manifest" "knative_service_manifest" {
+  depends_on = [resource.time_sleep.delay]
+
   for_each  = data.kubectl_file_documents.knative_service_file.manifests
   yaml_body = each.value
 }
 
 data "knative_service" "serverless_app" {
-  name = var.name
+  name = local.name
 }
 
 ########
