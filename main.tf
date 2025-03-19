@@ -8,7 +8,7 @@ resource "null_resource" "checkout_commit" {
   provisioner "local-exec" {
     command = <<EOT
     rm -rf repo
-    git clone --depth=1 --branch=${var.git_branch} ${local.formal_git_url} repo
+    git clone --depth=100 --branch=${var.git_branch} ${var.git_url} repo
     cd repo
     git checkout ${var.git_commit}
     EOT
