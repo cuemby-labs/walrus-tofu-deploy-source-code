@@ -9,6 +9,7 @@ resource "null_resource" "checkout_commit" {
     command = <<EOT
     rm -rf repo
     git clone --depth=100 --branch=${var.git_branch} ${var.git_url} repo
+    ls -la repo/
     cd repo
     git checkout ${var.git_commit}
     EOT
