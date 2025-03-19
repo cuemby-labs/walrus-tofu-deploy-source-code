@@ -34,121 +34,80 @@ module "image_pull_secrets" {
   username  = var.registry_username
   password  = var.registry_password
 }
-#########
-# knative
-#########
-
-# resource "kubernetes_namespace" "knative_service" {
-#   metadata {
-#     name = local.namespace
-#   }
-# }
-
-data "template_file" "knative_service_template" {
-  template = file("${path.module}/knative-service.yaml.tpl")
-  vars     = {
-    name               = local.name,
-    namespace          = local.namespace,
-    registry_server    = var.registry_server,
-    image              = var.image,
-    container_ports    = local.container_ports,
-    replicas           = var.replicas,
-    image_pull_secrets = local.image_pull_secrets,
-    request_cpu        = var.request_cpu == "" ? null : var.request_cpu,
-    limit_cpu          = var.limit_cpu == "" ? null : var.limit_cpu,
-    request_memory     = var.request_memory == "" ? null : var.request_memory,
-    limit_memory       = var.limit_memory == "" ? null : var.limit_memory
-  }
-}
-
-data "kubectl_file_documents" "knative_service_file" {
-  content = data.template_file.knative_service_template.rendered
-}
-
-resource "kubectl_manifest" "knative_service_manifest" {
-  depends_on = [resource.time_sleep.delay]
-
-  for_each  = data.kubectl_file_documents.knative_service_file.manifests
-  yaml_body = each.value
-}
-
-# data "knative_service" "serverless_app" {
-#   name = local.name
-# }
 
 ########
 # Deploy 
 ########
 
-# module "deployment" {
-#   depends_on = [resource.time_sleep.delay]
+module "deployment" {
+  depends_on = [resource.time_sleep.delay]
 
-#   # disable wait for all pods be ready.
-#   #
-#   wait_for_rollout = false
+  # disable wait for all pods be ready.
+  #
+  wait_for_rollout = false
 
-#   # Use local paths to avoid accessing external networks
-#   # This module comes from terraform registry "terraform-iaac/deployment/kubernetes 1.4.2"
-#   source = "./modules/deployment"
+  # Use local paths to avoid accessing external networks
+  # This module comes from terraform registry "terraform-iaac/deployment/kubernetes 1.4.2"
+  source = "./modules/deployment"
 
-#   name      = local.name
-#   namespace = local.namespace
-#   image     = "${var.registry_server}/${var.image}"
-#   image_pull_secrets = var.registry_auth ? {
-#     (local.name) : data.kubernetes_secret.image_pull_secrets.metadata[0].name
-#   } : {}
-#   replicas = var.replicas
-#   resources = {
-#     request_cpu    = var.request_cpu == "" ? null : var.request_cpu
-#     limit_cpu      = var.limit_cpu == "" ? null : var.limit_cpu
-#     request_memory = var.request_memory == "" ? null : var.request_memory
-#     limit_memory   = var.limit_memory == "" ? null : var.limit_memory
-#   }
-#   env = var.env
-# }
+  name      = local.name
+  namespace = local.namespace
+  image     = "${var.registry_server}/${var.image}"
+  image_pull_secrets = var.registry_auth ? {
+    (local.name) : data.kubernetes_secret.image_pull_secrets.metadata[0].name
+  } : {}
+  replicas = var.replicas
+  resources = {
+    request_cpu    = var.request_cpu == "" ? null : var.request_cpu
+    limit_cpu      = var.limit_cpu == "" ? null : var.limit_cpu
+    request_memory = var.request_memory == "" ? null : var.request_memory
+    limit_memory   = var.limit_memory == "" ? null : var.limit_memory
+  }
+  env = var.env
+}
 
-# module "service" {
-#   depends_on = [resource.time_sleep.delay]
+module "service" {
+  depends_on = [resource.time_sleep.delay]
 
-#   # Use local paths to avoid accessing external networks
-#   # This module comes from terraform registry "terraform-iaac/service/kubernetes 1.0.4"
-#   source = "./modules/service"
+  # Use local paths to avoid accessing external networks
+  # This module comes from terraform registry "terraform-iaac/service/kubernetes 1.0.4"
+  source = "./modules/service"
 
-#   app_name      = local.name
-#   app_namespace = local.namespace
-#   type          = "NodePort"
-#   port_mapping = [for p in var.ports :
-#     {
-#       name          = "port-${p}"
-#       internal_port = p
-#       external_port = p
-#       protocol      = "TCP"
-#   }]
-# }
+  app_name      = local.name
+  app_namespace = local.namespace
+  type          = "NodePort"
+  port_mapping = [for p in var.ports :
+    {
+      name          = "port-${p}"
+      internal_port = p
+      external_port = p
+      protocol      = "TCP"
+  }]
+}
 
-# module "ingress" {
-#   count = var.ingress_enabled ? 1 : 0
+module "ingress" {
+  count = var.ingress_enabled ? 1 : 0
 
-#   depends_on         = [module.deployment, module.service]
-#   source             = "./modules/ingress"
-#   app_name           = local.name
-#   app_namespace      = local.namespace
-#   annotations        = var.ingress_annotations
-#   ingress_class_name = var.ingress_class_name
-#   http_rules = [{
-#     host     = var.ingress_host
-#     resource = []
-#     service = [{
-#       name        = data.kubernetes_service.service.metadata[0].name
-#       port_number = data.kubernetes_service.service.spec[0].port[0].port
-#       # port_name   = data.kubernetes_service.service.spec[0].port[0].name
-#     }]
-#   }]
-#   tls_rules = var.ingress_tls_enabled ? [{
-#     hosts       = [var.ingress_host]
-#     secret_name = replace(var.ingress_host, ".", "-")
-#   }] : []
-# }
+  depends_on         = [module.deployment, module.service]
+  source             = "./modules/ingress"
+  app_name           = local.name
+  app_namespace      = local.namespace
+  annotations        = var.ingress_annotations
+  ingress_class_name = var.ingress_class_name
+  http_rules = [{
+    host     = var.ingress_host
+    resource = []
+    service = [{
+      name        = data.kubernetes_service.service.metadata[0].name
+      port_number = data.kubernetes_service.service.spec[0].port[0].port
+      # port_name   = data.kubernetes_service.service.spec[0].port[0].name
+    }]
+  }]
+  tls_rules = var.ingress_tls_enabled ? [{
+    hosts       = [var.ingress_host]
+    secret_name = replace(var.ingress_host, ".", "-")
+  }] : []
+}
 
 # resource "null_resource" "wait_for_url" {
 #   provisioner "local-exec" {
@@ -179,49 +138,45 @@ data "kubernetes_secret" "image_pull_secrets" {
   }
 }
 
-# data "kubernetes_service" "service" {
-#   depends_on = [module.service]
+data "kubernetes_service" "service" {
+  depends_on = [module.service]
 
-#   metadata {
-#     name      = local.name
-#     namespace = local.namespace
-#   }
-# }
+  metadata {
+    name      = local.name
+    namespace = local.namespace
+  }
+}
 
-# data "kubernetes_ingress_v1" "ingress" {
-#   depends_on = [module.ingress]
+data "kubernetes_ingress_v1" "ingress" {
+  depends_on = [module.ingress]
 
-#   metadata {
-#     name      = local.name
-#     namespace = local.namespace
-#   }
-# }
+  metadata {
+    name      = local.name
+    namespace = local.namespace
+  }
+}
 
 locals {
-  context            = var.context
-  image_pull_secrets = var.registry_auth ? try(data.kubernetes_secret.image_pull_secrets.metadata[0].name, "") : ""
-  name               = coalesce(try(var.name, null), try(var.walrus_metadata_service_name, null), try(var.context["resource"]["name"], null))
-  namespace          = coalesce(try(var.namespace, null), try(var.walrus_metadata_namespace_name, null), try(var.context["environment"]["namespace"], null))
-  formal_git_url     = replace(var.git_url, "https://", "git://")
-  container_ports    = join("\n", [
-    for p in var.ports : "            - containerPort: ${p}"
-  ])
+  context        = var.context
+  name           = coalesce(try(var.name, null), try(var.walrus_metadata_service_name, null), try(var.context["resource"]["name"], null))
+  namespace      = coalesce(try(var.namespace, null), try(var.walrus_metadata_namespace_name, null), try(var.context["environment"]["namespace"], null))
+  formal_git_url = replace(var.git_url, "https://", "git://")
 }
 
 #######
 # HPA
 #######
 
-# module "keda_scaleobject" {
-#   depends_on         = [module.deployment, module.service]
+module "keda_scaleobject" {
+  depends_on         = [module.deployment, module.service]
 
-#   # Use local paths to avoid accessing external networks
-#   # This module comes from terraform registry "terraform-iaac/deployment/kubernetes 1.0.0"
-#   source = "./modules/keda"
+  # Use local paths to avoid accessing external networks
+  # This module comes from terraform registry "terraform-iaac/deployment/kubernetes 1.0.0"
+  source = "./modules/keda"
 
-#   name         = local.name
-#   namespace    = local.namespace
-#   replicas     = var.replicas
-#   limit_cpu    = var.limit_cpu == "" ? null : var.limit_cpu
-#   limit_memory = var.limit_memory == "" ? null : var.limit_memory
-# }
+  name         = local.name
+  namespace    = local.namespace
+  replicas     = var.replicas
+  limit_cpu    = var.limit_cpu == "" ? null : var.limit_cpu
+  limit_memory = var.limit_memory == "" ? null : var.limit_memory
+}

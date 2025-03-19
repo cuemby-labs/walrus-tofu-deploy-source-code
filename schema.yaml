@@ -32,6 +32,14 @@ components:
           x-walrus-ui:
             group: Basic
             order: 3
+        git_commit:
+          title: Git Commit
+          type: string
+          description: Commit hash específico a clonar
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 4
         git_auth:
           title: Git Auth
           type: boolean
@@ -127,6 +135,17 @@ components:
             colSpan: 12
             group: Basic
             order: 14
+        env:
+          title: Env
+          type: object
+          description: Name and value pairs to set as the environment variables
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 16
         request_cpu:
           title: Request Cpu
           type: string
@@ -175,6 +194,49 @@ components:
           x-walrus-ui:
             group: Basic
             order: 20
+        ingress_enabled:
+          title: Ingress Enabled
+          type: boolean
+          description: (Optional) Enabled exposing via ingress.
+          default: false
+          x-walrus-ui:
+            group: Basic
+            order: 23
+        ingress_tls_enabled:
+          title: Ingress Tls Enabled
+          type: boolean
+          description: (Optional) Enabled TLS.
+          default: false
+          x-walrus-ui:
+            group: Basic
+            order: 24
+        ingress_host:
+          title: Ingress Host
+          type: string
+          description: (Optional) Add ingress host.
+          default: ""
+          x-walrus-ui:
+            group: Basic
+            order: 25
+        ingress_annotations:
+          title: Ingress Annotations
+          type: object
+          description: (Optional) Add annotations
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 26
+        ingress_class_name:
+          title: Ingress Class Name
+          type: string
+          description: (Optional) Add an ingress class name.
+          default: nginx
+          x-walrus-ui:
+            group: Basic
+            order: 27
         walrus_metadata_service_name:
           title: Walrus Metadata Service Name
           type: string
