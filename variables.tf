@@ -22,6 +22,13 @@ variable "git_tag" {
   default     = ""
   description = "Tag of the repository to clone."
 }
+# @label "Git Commit"
+# @group "Build"
+variable "git_commit" {
+  description = "Commit hash específico a clonar"
+  type        = string
+  default     = ""
+}
 # @label "Git Authentication"
 # @group "Build"
 variable "git_auth" {
