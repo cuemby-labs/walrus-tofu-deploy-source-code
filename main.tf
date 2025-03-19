@@ -2,13 +2,30 @@
 # Build
 #######
 
+resource "null_resource" "checkout_commit" {
+  count = var.git_commit != "" ? 1 : 0
+
+  provisioner "local-exec" {
+    command = <<EOT
+    rm -rf repo
+    git clone --depth=1 --branch=${var.git_branch} ${local.formal_git_url} repo
+    cd repo
+    git checkout ${var.git_commit}
+    EOT
+  }
+}
+
 resource "kaniko_image" "image" {
   # Context: use tag if provided, otherwise use branch
   # context = "${local.formal_git_url}#${var.git_commit != "" ? var.git_commit : (var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}")}"
   # context=git://<git-repo-url>/<git-repo-path>#refs/heads/<branch name>#<commit-id>
-  context="${local.formal_git_url}#refs/heads/${var.git_branch}#${var.git_commit}"
+  # context="${local.formal_git_url}#refs/heads/${var.git_branch}#${var.git_commit}"
+  context     = var.git_commit != "" ? "repo" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
+
   dockerfile  = var.dockerfile
   destination = "${var.registry_server}/${var.image}"
+
+  depends_on = [null_resource.checkout_commit]
 
   git_username      = var.git_auth ? var.git_username : ""
   git_password      = var.git_auth ? var.git_password : ""
