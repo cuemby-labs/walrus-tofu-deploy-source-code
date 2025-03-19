@@ -22,11 +22,10 @@ resource "kaniko_image" "image" {
   # context="${local.formal_git_url}#refs/heads/${var.git_branch}#${var.git_commit}"
   context     = var.git_commit != "" ? "repo" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
 
+  depends_on = [null_resource.checkout_commit]
   # dockerfile  = var.dockerfile
   dockerfile = var.git_commit != "" ? "repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
   destination = "${var.registry_server}/${var.image}"
-
-  depends_on = [null_resource.checkout_commit]
 
   git_username      = var.git_auth ? var.git_username : ""
   git_password      = var.git_auth ? var.git_password : ""
