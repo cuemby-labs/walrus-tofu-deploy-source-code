@@ -25,11 +25,6 @@ resource "kaniko_image" "image" {
   # dockerfile  = var.dockerfile
   # dockerfile = var.git_commit != "" ? "/tmp/repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
   dockerfile = var.git_commit != "" ? replace(var.dockerfile, "./", "") : var.dockerfile
-  provisioner "local-exec" {
-    command = <<EOT
-    echo "Dockerfile: ${var.git_commit != "" ? replace(var.dockerfile, "./", "") : var.dockerfile}"
-    EOT
-  }
 
   destination = "${var.registry_server}/${var.image}"
 
