@@ -24,7 +24,8 @@ resource "kaniko_image" "image" {
   depends_on = [null_resource.checkout_commit]
   # dockerfile  = var.dockerfile
   # dockerfile = var.git_commit != "" ? "/tmp/repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
-  dockerfile = var.git_commit != "" ? replace(var.dockerfile, "./", "") : var.dockerfile
+  # dockerfile = var.git_commit != "" ? replace(var.dockerfile, "./", "") : var.dockerfile
+  dockerfile = var.git_commit != "" ? "Dockerfile" : var.dockerfile
 
   destination = "${var.registry_server}/${var.image}"
 
