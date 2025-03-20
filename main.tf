@@ -23,8 +23,8 @@ resource "kaniko_image" "image" {
   context     = var.git_commit != "" ? "/tmp/repo" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
 
   depends_on = [null_resource.checkout_commit]
-  # dockerfile  = var.dockerfile
-  dockerfile = var.git_commit != "" ? "/tmp/repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
+  dockerfile  = var.dockerfile
+  # dockerfile = var.git_commit != "" ? "/tmp/repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
   # dockerfile = var.git_commit != "" ? replace(var.dockerfile, "./", "") : var.dockerfile
   # dockerfile = var.git_commit != "" ? "Dockerfile" : var.dockerfile
 
