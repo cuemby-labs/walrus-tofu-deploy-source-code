@@ -21,13 +21,6 @@ resource "kaniko_image" "image" {
   # context=git://<git-repo-url>/<git-repo-path>#refs/heads/<branch name>#<commit-id>
   context     = var.git_commit != "" ? "/tmp/repo" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
 
-  # e.i
-  provisioner "local-exec" {
-    command = <<EOT
-    echo "Context: ${var.git_commit != "" ? "/tmp/repo" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"}"
-    EOT
-  }
-
   depends_on = [null_resource.checkout_commit]
   # dockerfile  = var.dockerfile
   # dockerfile = var.git_commit != "" ? "/tmp/repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
