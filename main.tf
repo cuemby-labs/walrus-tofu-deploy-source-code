@@ -10,7 +10,7 @@ resource "null_resource" "checkout_commit" {
     mkdir /tmp
     git clone --depth=100 --branch=${var.git_branch} ${var.git_url} /tmp/repo
     ls -la /tmp/repo
-    $( cd /temp/repo && git checkout ${var.git_commit} )
+    $( cd /tmp/repo && git checkout ${var.git_commit} )
     EOT
   }
 }
@@ -19,7 +19,6 @@ resource "kaniko_image" "image" {
   # Context: use tag if provided, otherwise use branch
   # context = "${local.formal_git_url}#${var.git_commit != "" ? var.git_commit : (var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}")}"
   # context=git://<git-repo-url>/<git-repo-path>#refs/heads/<branch name>#<commit-id>
-  # context="${local.formal_git_url}#refs/heads/${var.git_branch}#${var.git_commit}"
   context     = var.git_commit != "" ? "/tmp/repo" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
 
   depends_on = [null_resource.checkout_commit]
