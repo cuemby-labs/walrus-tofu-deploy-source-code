@@ -7,12 +7,13 @@ resource "null_resource" "checkout_commit" {
 
   provisioner "local-exec" {
     command = <<EOT
-    mkdir /tmp
+    mkdir -p /tmp/repo
     git clone --depth=100 --branch=${var.git_branch} ${var.git_url} /tmp/repo
     ls -la /tmp/repo
     $( cd /tmp/repo && git checkout ${var.git_commit} )
 
     tar -C /tmp/repo -zcvf /tmp/context.tar.gz .
+    ls -la /tmp/context.tar.gz
     EOT
   }
 }
@@ -21,8 +22,9 @@ resource "kaniko_image" "image" {
   # Context: use tag if provided, otherwise use branch
   # context = "${local.formal_git_url}#${var.git_commit != "" ? var.git_commit : (var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}")}"
   # context=git://<git-repo-url>/<git-repo-path>#refs/heads/<branch name>#<commit-id>
+  context     = var.git_commit != "" ? "tar://tmp/context.tar.gz" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
+
   depends_on = [null_resource.checkout_commit]
-  context     = var.git_commit != "" ? "tar:///tmp/context.tar.gz" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
 
   dockerfile  = var.dockerfile
   # dockerfile = var.git_commit != "" ? "/tmp/repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
