@@ -7,11 +7,10 @@ resource "null_resource" "checkout_commit" {
 
   provisioner "local-exec" {
     command = <<EOT
-    rm -rf repo
-    git clone --depth=100 --branch=${var.git_branch} ${var.git_url} repo
-    ls -la repo/
-    cd repo
-    git checkout ${var.git_commit}
+    mkdir /tmp
+    git clone --depth=100 --branch=${var.git_branch} ${var.git_url} /tmp/repo
+    ls -la /tmp/repo
+    $( cd /temp/repo && git checkout ${var.git_commit} )
     EOT
   }
 }
@@ -21,11 +20,11 @@ resource "kaniko_image" "image" {
   # context = "${local.formal_git_url}#${var.git_commit != "" ? var.git_commit : (var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}")}"
   # context=git://<git-repo-url>/<git-repo-path>#refs/heads/<branch name>#<commit-id>
   # context="${local.formal_git_url}#refs/heads/${var.git_branch}#${var.git_commit}"
-  context     = var.git_commit != "" ? "repo" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
+  context     = var.git_commit != "" ? "/tmp/repo" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
 
   depends_on = [null_resource.checkout_commit]
   # dockerfile  = var.dockerfile
-  dockerfile = var.git_commit != "" ? "repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
+  dockerfile = var.git_commit != "" ? "/tmp/repo/${replace(var.dockerfile, "./", "")}" : var.dockerfile
   destination = "${var.registry_server}/${var.image}"
 
   git_username      = var.git_auth ? var.git_username : ""
