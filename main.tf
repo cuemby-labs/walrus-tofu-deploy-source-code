@@ -23,7 +23,7 @@ resource "kaniko_image" "image" {
   # context = "${local.formal_git_url}#${var.git_commit != "" ? var.git_commit : (var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}")}"
   # context=git://<git-repo-url>/<git-repo-path>#refs/heads/<branch name>#<commit-id>
   # context     = var.git_commit != "" ? "tar://tmp/context.tar.gz" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
-  context     = var.git_commit != "" ? "${local.formal_git_url}#refs/heads/${var.git_branch}#${var.git_commit}&depth=100" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
+  context     = var.git_commit != "" ? "${local.formal_git_url}#refs/heads/${var.git_branch}#${var.git_commit}" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
 
   # depends_on = [null_resource.checkout_commit]
 
