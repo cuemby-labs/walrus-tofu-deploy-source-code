@@ -15,8 +15,7 @@ spec:
           ports:
 ${container_ports}
           env:
-            - name: TARGET
-              value: "Knative!"
+${env_vars}
           resources:
             requests:
               cpu: ${request_cpu}

@@ -4,7 +4,8 @@
 
 resource "kaniko_image" "image" {
   # Context: use tag if provided, otherwise use branch
-  context     = "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
+  #context     = var.git_commit != "" ?"${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
+  context     = var.git_commit != "" ? "${local.formal_git_url}#refs/heads/${var.git_branch}#${var.git_commit}" : "${local.formal_git_url}#${var.git_tag != "" ? "refs/tags/${var.git_tag}" : "refs/heads/${var.git_branch}"}"
   dockerfile  = var.dockerfile
   destination = "${var.registry_server}/${var.image}"
 
@@ -57,7 +58,8 @@ data "template_file" "knative_service_template" {
     request_cpu        = var.request_cpu == "" ? null : var.request_cpu,
     limit_cpu          = var.limit_cpu == "" ? null : var.limit_cpu,
     request_memory     = var.request_memory == "" ? null : var.request_memory,
-    limit_memory       = var.limit_memory == "" ? null : var.limit_memory
+    limit_memory       = var.limit_memory == "" ? null : var.limit_memory,
+    env_vars           = local.env_vars_yaml
   }
 }
 
@@ -205,6 +207,10 @@ locals {
   formal_git_url     = replace(var.git_url, "https://", "git://")
   container_ports    = join("\n", [
     for p in var.ports : "            - containerPort: ${p}"
+  ])
+  env_vars_yaml = join("\n", [
+    for key, value in var.env :
+    "            - name: ${key}\n              value: \"${value}\""
   ])
 }
 

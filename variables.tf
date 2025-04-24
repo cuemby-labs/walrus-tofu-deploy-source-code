@@ -22,6 +22,13 @@ variable "git_tag" {
   default     = ""
   description = "Tag of the repository to clone."
 }
+# @label "Git Commit"
+# @group "Build"
+variable "git_commit" {
+  description = "Commit hash específico a clonar"
+  type        = string
+  default     = ""
+}
 # @label "Git Authentication"
 # @group "Build"
 variable "git_auth" {
@@ -121,11 +128,11 @@ variable "ports" {
 }
 # @label "Environment Variables"
 # @group "Deploy/Basic"
-# variable "env" {
-#   type        = map(string)
-#   description = "Name and value pairs to set as the environment variables"
-#   default     = {}
-# }
+variable "env" {
+  type        = map(string)
+  description = "Name and value pairs to set as the environment variables"
+  default     = {}
+}
 # @group "Deploy/Resources"
 # @label "CPU Request"
 variable "request_cpu" {
