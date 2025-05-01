@@ -39,10 +39,10 @@ module "image_pull_secrets" {
 # knative
 #########
 
-data "knative_service" "app" {
-  name      = local.name
-  namespace = local.namespace
-}
+# data "knative_service" "app" {
+#   name      = local.name
+#   namespace = local.namespace
+# }
 
 data "template_file" "knative_service_template" {
   template = file("${path.module}/knative-service.yaml.tpl")

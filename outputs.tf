@@ -55,13 +55,13 @@ output "walrus_resource_id" {
 #   description = "URL of the service"
 # }
 
-output "url" {
-  value = data.knative_service.app.status.url
-}
+# output "url" {
+#   value = data.knative_service.app.status.url
+# }
 
-output "address" {
-  value = data.knative_service.app.status.address
-}
+# output "address" {
+#   value = data.knative_service.app.status.address
+# }
 
 output "ports" {
   description = "Service Ports"
