@@ -56,11 +56,11 @@ output "walrus_resource_id" {
 # }
 
 output "url" {
-  url = data.knative_service.app.status.url
+  value = data.knative_service.app.status.url
 }
 
 output "address" {
-  url = data.knative_service.app.status.address
+  value = data.knative_service.app.status.address
 }
 
 output "ports" {
