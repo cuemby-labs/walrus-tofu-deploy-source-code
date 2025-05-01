@@ -2,6 +2,10 @@ terraform {
   required_version = ">= 1.6.0"
 
   required_providers {
+    knative = {
+      source = "theomessin/knative"
+      version = "0.1.1"
+    }
     kaniko = {
       source  = "seal-io/kaniko"
       version = "0.0.3"
