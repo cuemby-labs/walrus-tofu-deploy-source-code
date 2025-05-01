@@ -40,7 +40,8 @@ module "image_pull_secrets" {
 #########
 
 data "knative_service" "app" {
-  name = local.name
+  name      = local.name
+  namespace = local.namespace
 }
 
 data "template_file" "knative_service_template" {
