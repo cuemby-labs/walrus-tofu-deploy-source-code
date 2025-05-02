@@ -39,10 +39,16 @@ module "image_pull_secrets" {
 # knative
 #########
 
-# data "knative_service" "app" {
-#   name      = local.name
-#   namespace = local.namespace
-# }
+data "kubernetes_resource" "knative" {
+  depends_on = [resource.kubectl_manifest.knative_service_manifest]
+  api_version = "serving.knative.dev/v1"
+  kind        = "Service"
+
+  metadata {
+    name      = local.name
+    namespace = local.namespace
+  }
+}
 
 data "template_file" "knative_service_template" {
   template = file("${path.module}/knative-service.yaml.tpl")
