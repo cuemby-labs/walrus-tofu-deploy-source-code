@@ -40,7 +40,7 @@ module "image_pull_secrets" {
 #########
 
 data "kubernetes_resource" "knative" {
-  depends_on = [resource.kubectl_manifest.knative_service_manifest]
+  #depends_on = [resource.kubectl_manifest.knative_service_manifest]
   api_version = "serving.knative.dev/v1"
   kind        = "Service"
 
