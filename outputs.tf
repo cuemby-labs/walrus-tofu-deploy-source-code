@@ -42,10 +42,10 @@ output "walrus_endpoints" {
   description = "URL of the service"
 }
 
-output "service_ip" {
-  description = "Service IP"
-  value       = data.kubernetes_service.service.spec[0].cluster_ip
-}
+# output "service_ip" {
+#   description = "Service IP"
+#   value       = data.kubernetes_service.service.spec[0].cluster_ip
+# }
 
 output "ports" {
   description = "Service Ports"
