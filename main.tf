@@ -233,7 +233,7 @@ locals {
 
 resource "null_resource" "dashboard_url" {
   provisioner "local-exec" {
-    command = "kubectl get kservice dashboard-df1c94 -n sacctech-sqe5g7v-develop -o jsonpath='{.status.url}' >> ${path.module}/dashboard_url.txt"
+    command = "kubectl get service.serving.knative.dev ${local.name} -n ${local.namespace} -o jsonpath='{.status.url}' >> ${path.module}/dashboard_url.txt"
   }
 
   triggers = {
