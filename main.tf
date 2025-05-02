@@ -230,22 +230,3 @@ locals {
 #   limit_cpu    = var.limit_cpu == "" ? null : var.limit_cpu
 #   limit_memory = var.limit_memory == "" ? null : var.limit_memory
 # }
-
-resource "null_resource" "dashboard_url" {
-  provisioner "local-exec" {
-    command = "kubectl get service.serving.knative.dev ${local.name} -n ${local.namespace} -o jsonpath='{.status.url}' >> ${path.module}/dashboard_url.txt"
-  }
-
-  triggers = {
-    always_run = timestamp()
-  }
-}
-
-data "local_file" "dashboard_url_file" {
-  filename   = "${path.module}/dashboard_url.txt"
-  depends_on = [null_resource.dashboard_url]
-}
-
-output "dashboard_url" {
-  value = data.local_file.dashboard_url_file.content
-}
