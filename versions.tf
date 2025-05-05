@@ -7,8 +7,8 @@ terraform {
       version = "0.0.3"
     }
     kubernetes = {
-      source  = "txomon/kubernetes"
-      version = "2.23.0"
+      source  = "hashicorp/kubernetes"
+      version = "2.36.0"
     }
     template = {
       source  = "hashicorp/template"
