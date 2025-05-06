@@ -8,7 +8,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 1.0.0"
+      version = ">= 2.23.0"
     }
     template = {
       source  = "hashicorp/template"
@@ -31,4 +31,8 @@ terraform {
       version = "~> 2.0"
     }
   }
+}
+
+provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
