@@ -34,18 +34,13 @@ output "walrus_resource_id" {
 
 output "walrus_endpoints" {
   value = {
-    internal_url        = data.kubernetes_resource.knative.object.status.address.url
-    # internal_service_ip = data.kubernetes_service.service.spec[0].cluster_ip
-    external_url        = data.kubernetes_resource.knative.object.status.url
-    # load_balancer_ip    = var.ingress_enabled ? data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip : ""
+    internal_url        = "http://${data.kubernetes_service.service.metadata[0].name}.${data.kubernetes_service.service.metadata[0].namespace}"
+    internal_service_ip = data.kubernetes_service.service.spec[0].cluster_ip
+    external_url        = var.ingress_enabled ? "https://${var.ingress_host}" : ""
+    load_balancer_ip    = var.ingress_enabled ? data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip : ""
   }
   description = "URL of the service"
 }
-
-# output "service_ip" {
-#   description = "Service IP"
-#   value       = data.kubernetes_service.service.spec[0].cluster_ip
-# }
 
 output "ports" {
   description = "Service Ports"
@@ -56,4 +51,3 @@ output "image" {
   description = "Built docker image name"
   value       = var.image
 }
-
