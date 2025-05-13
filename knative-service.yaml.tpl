@@ -10,9 +10,7 @@ spec:
         autoscaling.knative.dev/minScale: "${replicas}"
         autoscaling.knative.dev/maxScale: "5"
       labels:
-        cp_platform.project_id: "${project_id}"
-        cp_platform.environment_id: "${environment_id}"
-        cp_platform.runtime_id: "${runtime_id}"
+${labels}
     spec:
       containers:
         - image: "${registry_server}/${image}"

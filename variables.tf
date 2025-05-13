@@ -133,6 +133,13 @@ variable "env" {
   description = "Name and value pairs to set as the environment variables"
   default     = {}
 }
+# @label "Environment Variables"
+# @group "Deploy/Basic"
+variable "labels" {
+  type        = map(string)
+  description = "List of labels to set it in knative"
+  default     = {}
+}
 # @group "Deploy/Resources"
 # @label "CPU Request"
 variable "request_cpu" {

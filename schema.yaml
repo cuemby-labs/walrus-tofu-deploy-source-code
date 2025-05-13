@@ -146,6 +146,17 @@ components:
             colSpan: 12
             group: Basic
             order: 16
+        labels:
+          title: Labels
+          type: object
+          description: List of labels to set it in knative
+          default: {}
+          additionalProperties:
+            type: string
+          x-walrus-ui:
+            colSpan: 12
+            group: Basic
+            order: 17
         request_cpu:
           title: Request Cpu
           type: string
@@ -153,7 +164,7 @@ components:
           default: "0.1"
           x-walrus-ui:
             group: Basic
-            order: 17
+            order: 18
         request_memory:
           title: Request Memory
           type: string
@@ -161,7 +172,7 @@ components:
           default: 128Mi
           x-walrus-ui:
             group: Basic
-            order: 18
+            order: 19
         limit_cpu:
           title: Limit Cpu
           type: string
@@ -169,7 +180,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 19
+            order: 20
         limit_memory:
           title: Limit Memory
           type: string
@@ -177,7 +188,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 20
+            order: 21
         namespace:
           title: Namespace
           type: string
@@ -185,7 +196,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 21
+            order: 22
         name:
           title: Name
           type: string
@@ -193,7 +204,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 22
+            order: 23
         walrus_metadata_service_name:
           title: Walrus Metadata Service Name
           type: string
@@ -201,7 +212,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 23
+            order: 24
         walrus_metadata_namespace_name:
           title: Walrus Metadata Namespace Name
           type: string
@@ -209,7 +220,7 @@ components:
           default: ""
           x-walrus-ui:
             group: Basic
-            order: 24
+            order: 25
       x-walrus-ui:
         groupOrder:
         - Basic

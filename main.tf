@@ -65,9 +65,10 @@ data "template_file" "knative_service_template" {
     request_memory     = var.request_memory == "" ? null : var.request_memory,
     limit_memory       = var.limit_memory == "" ? null : var.limit_memory,
     env_vars           = local.env_vars_yaml,
-    project_id         = try(local.context["project"]["name"], null),
-    environment_id     = try(local.context["environment"]["id"], null),
-    runtime_id         = try(local.context["resource"]["id"], null)
+    labels             = local.labels_yaml,
+    # project_id         = try(local.context["project"]["name"], null),
+    # environment_id     = try(local.context["environment"]["id"], null),
+    # runtime_id         = try(local.context["resource"]["id"], null)
   }
 }
 
@@ -219,6 +220,10 @@ locals {
   env_vars_yaml = join("\n", [
     for key, value in var.env :
     "            - name: ${key}\n              value: \"${value}\""
+  ])
+  labels_yaml = join("\n", [
+  for key, value in var.labels :
+  "       ${key}: ${value}"
   ])
 }
 
