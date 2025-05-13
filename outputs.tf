@@ -32,15 +32,15 @@ output "walrus_resource_id" {
   description = "The id of resource where deployed in Walrus."
 }
 
-output "walrus_endpoints" {
-  value = {
-    internal_url        = data.kubernetes_resource.knative.object.status.address.url
-    # internal_service_ip = data.kubernetes_service.service.spec[0].cluster_ip
-    external_url        = data.kubernetes_resource.knative.object.status.url
-    # load_balancer_ip    = var.ingress_enabled ? data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip : ""
-  }
-  description = "URL of the service"
-}
+# output "walrus_endpoints" {
+#   value = {
+#     internal_url        = data.kubernetes_resource.knative.object.status.address.url
+#     # internal_service_ip = data.kubernetes_service.service.spec[0].cluster_ip
+#     external_url        = data.kubernetes_resource.knative.object.status.url
+#     # load_balancer_ip    = var.ingress_enabled ? data.kubernetes_ingress_v1.ingress.status[0].load_balancer[0].ingress[0].ip : ""
+#   }
+#   description = "URL of the service"
+# }
 
 # output "service_ip" {
 #   description = "Service IP"
